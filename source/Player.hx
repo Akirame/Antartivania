@@ -15,26 +15,20 @@ class Player extends FlxSprite
 	{
 		super(X, Y);
 		makeGraphic(8, 8, 0xFFFF0000);
-		acceleration.y = 400;
+		acceleration.y = 1400;
 	}
 	
 	override public function update(elapsed:Float):Void 
 	{		
 	
 		velocity.x = 0;
-		
 		if (FlxG.keys.justPressed.Z)
-		velocity.y -= 300;
-			
-		
+			velocity.y -= 300;
 		if (FlxG.keys.pressed.LEFT)
-		velocity.x -= 100;
+			velocity.x -= 100;
 		if (FlxG.keys.pressed.RIGHT)
-		velocity.x += 100;
+			velocity.x += 100;
 		super.update(elapsed);
-	
-		
-		
 	}	
 	
 }

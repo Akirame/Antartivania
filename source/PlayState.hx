@@ -18,8 +18,8 @@ class PlayState extends FlxState
 		super.create();
 
 		loader = new FlxOgmoLoader(AssetPaths.level1__oel);
-		tilemap = loader.loadTilemap(AssetPaths.tiles__png, 16, 16, "tiles");
-		
+		p1 = new Player(10, 10);
+		tilemap = loader.loadTilemap(AssetPaths.tiles__png, 16, 16, "tiles");		
 		tilemap.setTileProperties(0, FlxObject.NONE);
 		tilemap.setTileProperties(4, FlxObject.NONE);
 		tilemap.setTileProperties(8, FlxObject.NONE);
@@ -32,13 +32,12 @@ class PlayState extends FlxState
 		tilemap.setTileProperties(9, FlxObject.ANY);
 		tilemap.setTileProperties(10, FlxObject.ANY);
 		tilemap.setTileProperties(11, FlxObject.ANY);
-		
-		
-		loader.loadEntities(placeEntities, "entities");
+		//loader.loadEntities(placeEntities, "entities");
 		FlxG.camera.follow(p1);
 		
-		add(p1);
 		add(tilemap);
+		add(p1);
+		FlxG.worldBounds.set(0, 0, tilemap.width, tilemap.height);
 	}
 
 	private function placeEntities(entityName:String, entityData:Xml):Void // inicializar entidades
@@ -57,8 +56,7 @@ class PlayState extends FlxState
 
 	override public function update(elapsed:Float):Void
 	{
-		FlxG.collide(tilemap, p1)
+		FlxG.collide(tilemap, p1);
 		super.update(elapsed);
-		
 	}
 }
