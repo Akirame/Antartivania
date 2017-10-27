@@ -15,6 +15,7 @@ enum Estado
 	IDLE;
 	RUN;
 	JUMP;
+	FALL;
 }
 class Player extends FlxSprite
 {
@@ -25,7 +26,7 @@ class Player extends FlxSprite
 	public function new(?X:Float=0, ?Y:Float=0)
 	{
 		super(X, Y);
-		makeGraphic(8, 8, 0xFFFF0000);
+		makeGraphic(16, 16, 0xFFFF0000);
 		acceleration.y = 1400;
 		setFacingFlip(FlxObject.LEFT, true, false);
 		setFacingFlip(FlxObject.RIGHT, false, false);
@@ -34,7 +35,7 @@ class Player extends FlxSprite
 	override public function update(elapsed:Float):Void
 	{
 		velocity.x = 0;
-		stateMachine();		
+		stateMachine();	
 		super.update(elapsed);
 	}
 
@@ -53,13 +54,19 @@ class Player extends FlxSprite
 			case Estado.RUN:
 				hMove();
 				jump();
-				if (velocity.y != 0)
+				
+				if (!isTouching(FlxObject.FLOOR))
+				{
+				state = Estado.FALL;
+				}
+				else if (velocity.y != 0)
 					state = Estado.JUMP;
 				else if (velocity.x == 0)
 				{
 					state = Estado.IDLE;
 					direction = 0;
 				}
+				
 
 			case Estado.JUMP:
 				if (!isTouching(FlxObject.FLOOR))
@@ -74,6 +81,10 @@ class Player extends FlxSprite
 					else
 						state = Estado.RUN;
 				}
+			case Estado.FALL:
+				velocity.x = 0;
+				if (isTouching(FlxObject.FLOOR))
+					state = Estado.IDLE;
 		}
 	}
 
