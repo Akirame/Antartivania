@@ -16,7 +16,7 @@
     <Width>5128</Width>
     <Height>5128</Height>
   </LevelMaximumSize>
-  <Filename>C:\Users\51\Documents\Antartivania\assets\data\Antartivania.oep</Filename>
+  <Filename>C:\Users\51\Desktop\Antartivania.oep</Filename>
   <AngleMode>Radians</AngleMode>
   <CameraEnabled>false</CameraEnabled>
   <CameraSize>
@@ -53,7 +53,7 @@
   <Tilesets>
     <Tileset>
       <Name>tiles</Name>
-      <FilePath>..\images\tiles.png</FilePath>
+      <FilePath>tiles.png</FilePath>
       <TileSize>
         <Width>16</Width>
         <Height>16</Height>

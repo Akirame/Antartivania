@@ -32,7 +32,7 @@ class PlayState extends FlxState
 		tilemap.setTileProperties(9, FlxObject.ANY);
 		tilemap.setTileProperties(10, FlxObject.ANY);
 		tilemap.setTileProperties(11, FlxObject.ANY);
-		//loader.loadEntities(placeEntities, "entities");
+		loader.loadEntities(placeEntities, "entities");
 		FlxG.camera.follow(p1);
 		
 		add(tilemap);
