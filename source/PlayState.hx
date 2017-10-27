@@ -10,6 +10,7 @@ import flixel.tile.FlxTilemap;
 class PlayState extends FlxState
 {
 	private var p1:Player;
+	private var seal:Seal;
 	private var tilemap:FlxTilemap;
 	private var loader:FlxOgmoLoader;
 
@@ -19,6 +20,7 @@ class PlayState extends FlxState
 
 		loader = new FlxOgmoLoader(AssetPaths.level1__oel);
 		p1 = new Player(10, 10);
+		seal = new Seal(20, 10);
 		tilemap = loader.loadTilemap(AssetPaths.tiles__png, 16, 16, "tiles");		
 		tilemap.setTileProperties(0, FlxObject.NONE);
 		tilemap.setTileProperties(4, FlxObject.NONE);
@@ -37,6 +39,7 @@ class PlayState extends FlxState
 		
 		add(tilemap);
 		add(p1);
+		add(seal);
 		FlxG.worldBounds.set(0, 0, tilemap.width, tilemap.height);
 	}
 
@@ -57,6 +60,7 @@ class PlayState extends FlxState
 	override public function update(elapsed:Float):Void
 	{
 		FlxG.collide(tilemap, p1);
+		FlxG.collide(tilemap, seal);
 		super.update(elapsed);
 	}
 }
