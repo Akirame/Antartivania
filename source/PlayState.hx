@@ -5,6 +5,7 @@ import flixel.FlxObject;
 import flixel.FlxSprite;
 import flixel.FlxState;
 import flixel.addons.editors.ogmo.FlxOgmoLoader;
+import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.tile.FlxTilemap;
 
 class PlayState extends FlxState
@@ -13,14 +14,13 @@ class PlayState extends FlxState
 	private var seal:Seal;
 	private var tilemap:FlxTilemap;
 	private var loader:FlxOgmoLoader;
+	private var enemyGroup:FlxTypedGroup<Enemy>;
 
 	override public function create():Void
 	{
 		super.create();
-
-		loader = new FlxOgmoLoader(AssetPaths.level1__oel);
-		p1 = new Player(10, 10);
-		seal = new Seal(20, 10);
+		enemyGroup = new FlxTypedGroup();
+		loader = new FlxOgmoLoader(AssetPaths.level1__oel);		
 		tilemap = loader.loadTilemap(AssetPaths.tiles__png, 16, 16, "tiles");		
 		tilemap.setTileProperties(0, FlxObject.NONE);
 		tilemap.setTileProperties(4, FlxObject.NONE);
@@ -37,9 +37,8 @@ class PlayState extends FlxState
 		loader.loadEntities(placeEntities, "entities");
 		FlxG.camera.follow(p1);
 		
+		add(enemyGroup);
 		add(tilemap);
-		add(p1);
-		add(seal);
 		FlxG.worldBounds.set(0, 0, tilemap.width, tilemap.height);
 	}
 
@@ -52,15 +51,17 @@ class PlayState extends FlxState
 		{
 			case "player":
 				p1 = new Player(x, y);
+				add(p1);
 			case "enemy":
-				var e:FlxSprite = new FlxSprite(50, 50);
+				var e:Seal = new Seal(x, y);
+				enemyGroup.add(e);
 		}
 	}
 
 	override public function update(elapsed:Float):Void
 	{
 		FlxG.collide(tilemap, p1);
-		FlxG.collide(tilemap, seal);
+		FlxG.collide(tilemap, enemyGroup);
 		super.update(elapsed);
 	}
 }

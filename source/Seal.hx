@@ -23,9 +23,9 @@ class Seal extends Enemy
 {
 	private var state:Estados;
 	private var timerMov:Float = 0;
-	public function new(?X:Float=0, ?Y:Float=0, ?SimpleGraphic:FlxGraphicAsset)
+	public function new(?X:Float=0, ?Y:Float=0)
 	{
-		super(X, Y, SimpleGraphic);
+		super(X, Y);
 		makeGraphic(16, 8, 0xFF4003FF);
 		state = Estados.IDLE;
 		acceleration.y = 1400;
@@ -33,7 +33,6 @@ class Seal extends Enemy
 
 	override public function update(elapsed:Float):Void
 	{
-		stateMachine();
 		super.update(elapsed);
 	}
 

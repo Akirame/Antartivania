@@ -3,6 +3,8 @@ package;
 import flixel.FlxG;
 import flixel.FlxObject;
 import flixel.FlxSprite;
+import flixel.math.FlxPoint;
+import flixel.math.FlxVelocity;
 import flixel.system.FlxAssets.FlxGraphicAsset;
 
 /**
@@ -22,42 +24,48 @@ class Player extends FlxSprite
 
 	private var state:Estado = Estado.IDLE;
 	private var direction:Int = 0;
-
+	private var whip:Attack;
+	
 	public function new(?X:Float=0, ?Y:Float=0)
 	{
 		super(X, Y);
-		makeGraphic(16, 16, 0xFFFF0000);
+		loadGraphic(AssetPaths.playerSheet__png, true, 48, 48);
 		acceleration.y = 1400;
 		setFacingFlip(FlxObject.LEFT, true, false);
 		setFacingFlip(FlxObject.RIGHT, false, false);
+		animation.add("idle", [0,1], 8, true);
+		animation.add("run", [0, 1, 2, 3, 4, 5], 8, true);
+		animation.add("jump", [3], 8, true);
 	}
 
 	override public function update(elapsed:Float):Void
 	{
 		velocity.x = 0;
-		stateMachine();	
+		stateMachine();		
 		super.update(elapsed);
 	}
-
+	
 	function stateMachine():Void
 	{
 		switch (state)
 		{
 			case Estado.IDLE:
+				animation.play("idle");
 				hMove();
-				jump();
+				jump();				
 				if (velocity.y != 0)
 					state = Estado.JUMP;
 				else if (velocity.x != 0)
 					state = Estado.RUN;
 
 			case Estado.RUN:
+				animation.play("run");
 				hMove();
-				jump();
-				
+				jump();				
+
 				if (!isTouching(FlxObject.FLOOR))
 				{
-				state = Estado.FALL;
+					state = Estado.FALL;
 				}
 				else if (velocity.y != 0)
 					state = Estado.JUMP;
@@ -66,9 +74,9 @@ class Player extends FlxSprite
 					state = Estado.IDLE;
 					direction = 0;
 				}
-				
 
 			case Estado.JUMP:
+				animation.play("jump");
 				if (!isTouching(FlxObject.FLOOR))
 					velocity.x += 100 * direction;
 				if (velocity.y == 0)
