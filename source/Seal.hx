@@ -7,6 +7,7 @@ import flixel.addons.tile.FlxRayCastTilemap;
 import flixel.math.FlxPoint;
 import flixel.math.FlxRandom;
 import flixel.system.FlxAssets.FlxGraphicAsset;
+import flixel.tile.FlxTilemap;
 
 /**
  * ...
@@ -24,46 +25,49 @@ class Seal extends Enemy
 {
 	private var state:Estados;
 	private var timerMov:Float = 0;
-	private var collisionCast:FlxSprite;
 	private var direction:Int;
+	var derecha:FlxSprite;
+	var izquierda:FlxSprite;
 	public function new(?X:Float=0, ?Y:Float=0)
 	{
 		super(X, Y);
 		makeGraphic(16, 8, 0xFF4003FF);
 		acceleration.y = 1400;
-		collisionCast = new FlxSprite(x + width, y + height);
-		collisionCast.makeGraphic(2, 16, 0xFFFF0000);
-		FlxG.state.add(collisionCast);
-		collisionCast.acceleration.y = 200;
+		derecha = new FlxSprite(x + width, y + height);
+		derecha.makeGraphic(2, 8, 0xFFFF0000);
+		izquierda = new FlxSprite(x + width, y + height);
+		izquierda.makeGraphic(2, 8, 0xFFFF0000);
+		FlxG.state.add(derecha);
+		FlxG.state.add(izquierda);
 		state = Estados.IDLE;
 		setFacingFlip(FlxObject.LEFT, true, false);
 		setFacingFlip(FlxObject.RIGHT, false, false);
-		collisionCast.setFacingFlip(FlxObject.LEFT, true, false);
-		collisionCast.setFacingFlip(FlxObject.RIGHT, false, false);
 		direction = 1;
-		flipX = false;
+		derecha.acceleration.y = 1400;
+		izquierda.acceleration.y = 1400;
 	}
 
 	override public function update(elapsed:Float):Void
 	{
-		collisionCast.setPosition(x + width, y);
-		FlxG.collide(collisionCast, Global.tilemapActual);
+		FlxG.collide(derecha, Global.tilemapActual);
+		FlxG.collide(izquierda, Global.tilemapActual);
 		hMove();
 		super.update(elapsed);
 	}
 	
 	private function hMove():Void
 	{
-		if (collisionCast.isTouching(FlxObject.FLOOR))
-			direction = direction * 1;
+		izquierda.setPosition(x - 5, y);
+		derecha.setPosition(x + width + 5, y);
+		if (izquierda.isTouching(FlxObject.FLOOR) && derecha.isTouching(FlxObject.FLOOR) == false)
+			direction = -1;
+		else if (izquierda.isTouching(FlxObject.FLOOR) == false && derecha.isTouching(FlxObject.FLOOR))
+			direction = 1;
 		else
-			direction = direction * -1;
+			direction = direction * 1;
 		velocity.x = 10 * direction;
-		trace(velocity.x);
-		facing = (velocity.x > 0) ? FlxObject.RIGHT : FlxObject.LEFT;
-		collisionCast.facing = (velocity.x > 0) ? FlxObject.RIGHT : FlxObject.LEFT;
 	}
-
+	
 	private function stateMachine():Void
 	{
 		switch (state)

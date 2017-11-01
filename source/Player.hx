@@ -29,7 +29,7 @@ class Player extends FlxSprite
 	public function new(?X:Float=0, ?Y:Float=0)
 	{
 		super(X, Y);
-		loadGraphic(AssetPaths.playerSheet__png, true, 48, 48);
+		makeGraphic(16, 32, 0xFF0000FF);
 		acceleration.y = 1400;
 		setFacingFlip(FlxObject.LEFT, true, false);
 		setFacingFlip(FlxObject.RIGHT, false, false);
