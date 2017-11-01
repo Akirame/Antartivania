@@ -25,6 +25,8 @@ class Player extends FlxSprite
 	private var state:Estado = Estado.IDLE;
 	private var direction:Int = 0;
 	private var whip:Attack;
+	var timerAttack:Float = 0;
+	var attacking:Bool;
 	
 	public function new(?X:Float=0, ?Y:Float=0)
 	{
@@ -36,6 +38,12 @@ class Player extends FlxSprite
 		animation.add("idle", [0,1], 8, true);
 		animation.add("run", [0, 1, 2, 3, 4, 5], 8, true);
 		animation.add("jump", [3], 8, true);
+		whip = new Attack(x, y);
+		whip.makeGraphic(40, 40, 0xFF00FFFF);
+		FlxG.state.add(whip);
+		direction = 1;
+		whip.kill();
+		attacking = false;
 	}
 
 	override public function update(elapsed:Float):Void
@@ -43,6 +51,21 @@ class Player extends FlxSprite
 		velocity.x = 0;
 		stateMachine();		
 		super.update(elapsed);
+		if(direction==1)
+			whip.setPosition(x + width, y);
+		else if (direction ==-1)
+			whip.setPosition(x - whip.width, y);
+		whip.setPosition(whip.x, y);
+		if (FlxG.keys.justPressed.S)
+			attack();
+		if (attacking)
+			timerAttack += elapsed;
+		if (timerAttack > 0.2)
+		{
+			timerAttack = 0;
+			whip.kill();
+			attacking = false;
+		}
 	}
 	
 	function stateMachine():Void
@@ -104,7 +127,13 @@ class Player extends FlxSprite
 			velocity.y -= 300;
 		}
 	}
-
+	
+	private function attack():Void
+	{
+		whip.revive();
+		attacking = true;
+	}
+	
 	function hMove():Void
 	{
 		if (FlxG.keys.pressed.LEFT)
