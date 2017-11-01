@@ -39,6 +39,7 @@ class PlayState extends FlxState
 		
 		add(enemyGroup);
 		add(tilemap);
+		Global.tilemapActual = tilemap;
 		FlxG.worldBounds.set(0, 0, tilemap.width, tilemap.height);
 	}
 
@@ -53,7 +54,7 @@ class PlayState extends FlxState
 				p1 = new Player(x, y);
 				add(p1);
 			case "enemy":
-				var e:Seal = new Seal(x, y);
+				var e:Seal = new Seal(x,y);
 				enemyGroup.add(e);
 		}
 	}
