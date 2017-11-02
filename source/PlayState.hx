@@ -24,8 +24,8 @@ class PlayState extends FlxState
 		super.create();
 		enemyGroup = new FlxTypedGroup();
 		tileGroup = new FlxTypedGroup();
-		loader = new FlxOgmoLoader(AssetPaths.level1__oel);		
-		tilemap = loader.loadTilemap(AssetPaths.tiles__png, 16, 16, "tiles");		
+		loader = new FlxOgmoLoader(AssetPaths.level1__oel);
+		tilemap = loader.loadTilemap(AssetPaths.tiles__png, 16, 16, "tiles");
 		tilemap.setTileProperties(0, FlxObject.NONE);
 		tilemap.setTileProperties(4, FlxObject.NONE);
 		tilemap.setTileProperties(8, FlxObject.NONE);
@@ -37,13 +37,13 @@ class PlayState extends FlxState
 		tilemap.setTileProperties(7, FlxObject.ANY);
 		tilemap.setTileProperties(9, FlxObject.ANY);
 		tilemap.setTileProperties(10, FlxObject.ANY);
-		tilemap.setTileProperties(11, FlxObject.ANY);	
+		tilemap.setTileProperties(11, FlxObject.ANY);
 		loader.loadEntities(placeEntities, "entities");
 		FlxG.camera.follow(p1);
 		add(tilemap);
 		add(enemyGroup);
 		add(tileGroup);
-		
+
 		Global.tilemapActual = tilemap;
 		FlxG.worldBounds.set(0, 0, tilemap.width, tilemap.height);
 	}
@@ -65,16 +65,21 @@ class PlayState extends FlxState
 				var e:FlyingSeal = new FlyingSeal(x, y);
 				enemyGroup.add(e);
 			case "jumpTile":
-				var t = new Tile(x, y, null, Tile.Tipo.BOUNCING);			
-				t.makeGraphic(16, 16, 0xFF00FF00);
+				var t = new Tile(x, y, null, Tile.Tipo.BOUNCING);
 				tileGroup.add(t);
 			case "tTileLeft":
 				var t = new Tile(x, y, null, Tile.Tipo.TRANSPORTLEFT);
-				t.makeGraphic(16, 16, 0xFF00FF00);
 				tileGroup.add(t);
 			case "tTileRight":
 				var t = new Tile(x, y, null, Tile.Tipo.TRANSPORTRIGHT);
-				t.makeGraphic(16, 16, 0xFF00FF00);
+				tileGroup.add(t);
+			case "VerticalTile":
+				var t = new Tile(x, y, null, Tile.Tipo.VERTICAL);
+				t.makeGraphic(64, 16, 0xFF00FF00);
+				tileGroup.add(t);
+			case "HorizontalTile":
+				var t = new Tile(x, y, null, Tile.Tipo.HORIZONTAL);
+				t.makeGraphic(64, 16, 0xFF00FF00);
 				tileGroup.add(t);
 		}
 	}
@@ -83,22 +88,25 @@ class PlayState extends FlxState
 	{
 		FlxG.collide(tilemap, p1);
 		FlxG.collide(tilemap, enemyGroup);
-		FlxG.collide(tileGroup, p1, jumpTilePlayer);
+		FlxG.collide(tileGroup, p1, CollideTilePlayer);
 		super.update(elapsed);
-		
+
 	}
-	
-	function jumpTilePlayer(t:Tile,p:Player) 
+
+	function CollideTilePlayer(t:Tile,p:Player)
 	{
 		if (p.isTouching(FlxObject.FLOOR) && !p.isTouching(FlxObject.WALL))
 		{
-		if(t._tipo == Tile.Tipo.BOUNCING)
-		p.velocity.y = -300;
-		if (t._tipo == Tile.Tipo.TRANSPORTRIGHT)
-		p.acceleration.x = 5000;
-		if (t._tipo == Tile.Tipo.TRANSPORTLEFT)
-		p.acceleration.x = -5000;
+			if (t._tipo == Tile.Tipo.BOUNCING)
+			{
+				t.animation.play("boingACTIVE");
+				p.velocity.y = -300;
+			}
+			else if (t._tipo == Tile.Tipo.TRANSPORTRIGHT)
+				p.acceleration.x = 5000;
+			else if (t._tipo == Tile.Tipo.TRANSPORTLEFT)
+				p.acceleration.x = -5000;
 		}
 	}
-	
+
 }

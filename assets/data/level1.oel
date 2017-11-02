@@ -47,7 +47,6 @@
   <entities>
     <enemy1 id="1" x="176" y="560" />
     <enemy2 id="2" x="192" y="544" />
-    <player id="0" x="1648" y="288" />
     <tTileLeft id="3" x="1520" y="336" />
     <tTileLeft id="4" x="1536" y="336" />
     <tTileLeft id="5" x="1552" y="336" />
@@ -57,5 +56,8 @@
     <tTileRight id="9" x="1728" y="336" />
     <tTileRight id="10" x="1712" y="336" />
     <jumpTile id="11" x="1824" y="336" />
+    <VerticalTile id="12" x="1520" y="160" />
+    <HorizontalTile id="13" x="1568" y="240" />
+    <player id="0" x="1456" y="80" />
   </entities>
 </level>

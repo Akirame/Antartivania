@@ -23,7 +23,7 @@ enum Estado
 class Player extends FlxSprite
 {
 
-	private var state:Estado = Estado.IDLE;
+	private var state:Estado = Estado.FALL;
 	private var direction:Int = 0;
 	private var whip:Attack;
 	var timerAttack:Float = 0;
