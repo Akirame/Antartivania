@@ -32,7 +32,7 @@ class Player extends FlxSprite
 	public function new(?X:Float=0, ?Y:Float=0)
 	{
 		super(X, Y);
-		makeGraphic(16, 32, 0xFF0000FF);
+		makeGraphic(16, 32, 0xFF0000FF);		
 		acceleration.y = 1400;
 		setFacingFlip(FlxObject.LEFT, true, false);
 		setFacingFlip(FlxObject.RIGHT, false, false);
@@ -49,9 +49,11 @@ class Player extends FlxSprite
 
 	override public function update(elapsed:Float):Void
 	{
-		velocity.x = 0;
+	
 		stateMachine();
 		super.update(elapsed);
+		velocity.x = 0;
+		acceleration.x = 0;
 		attackDirection();
 	}
 
@@ -120,13 +122,8 @@ class Player extends FlxSprite
 				{
 					timerAttack = 0;
 					whip.kill();
-					attacking = false;
-					if (velocity.y != 0)
-						state = Estado.JUMP;
-					else if (velocity.x != 0)
-						state = Estado.RUN
-								else
-									state = Estado.IDLE;
+					attacking = false;				
+					state = Estado.IDLE;
 				}
 
 		}
