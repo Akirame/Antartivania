@@ -7,6 +7,7 @@ import flixel.FlxState;
 import flixel.addons.editors.ogmo.FlxOgmoLoader;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.tile.FlxTilemap;
+import flixel.tweens.FlxTween;
 
 class PlayState extends FlxState
 {
@@ -15,6 +16,7 @@ class PlayState extends FlxState
 	private var tilemap:FlxTilemap;
 	private var loader:FlxOgmoLoader;
 	private var enemyGroup:FlxTypedGroup<Enemy>;
+
 
 	override public function create():Void
 	{
@@ -36,7 +38,6 @@ class PlayState extends FlxState
 		tilemap.setTileProperties(11, FlxObject.ANY);
 		loader.loadEntities(placeEntities, "entities");
 		FlxG.camera.follow(p1);
-		
 		add(enemyGroup);
 		add(tilemap);
 		Global.tilemapActual = tilemap;
@@ -53,8 +54,11 @@ class PlayState extends FlxState
 			case "player":
 				p1 = new Player(x, y);
 				add(p1);
-			case "enemy":
+			case "enemy1":
 				var e:Seal = new Seal(x,y);
+				enemyGroup.add(e);
+			case "enemy2":
+				var e:FlyingSeal = new FlyingSeal(x, y);
 				enemyGroup.add(e);
 		}
 	}
@@ -64,5 +68,11 @@ class PlayState extends FlxState
 		FlxG.collide(tilemap, p1);
 		FlxG.collide(tilemap, enemyGroup);
 		super.update(elapsed);
+		
+	}
+	
+	function transportCint(t:FlxTilemap,p:Player) 
+	{
+		p.velocity.x += 30;
 	}
 }
