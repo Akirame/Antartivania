@@ -1,5 +1,6 @@
 package;
 
+import flixel.FlxG;
 import flixel.system.FlxAssets.FlxGraphicAsset;
 
 /**
@@ -14,12 +15,23 @@ class PolarBear extends Enemy
 		super(X, Y, SimpleGraphic);
 		makeGraphic(64, 32, 0xFFFFFFFF);
 		health = 2;
+		damage = 2;
 	}
 	
 	override public function update(elapsed:Float):Void 
 	{
 		super.update(elapsed);
 		move();
+	}
+	
+	override function onPlayerCollide():Void 
+	{
+		super.onPlayerCollide();
+	}
+	
+	private function attackPlayer(p:Player,b:PolarBear):Void
+	{
+		p.takeDamage(damage);
 	}
 	
 	private function move():Void

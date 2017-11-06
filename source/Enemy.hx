@@ -1,5 +1,6 @@
 package;
 
+import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.system.FlxAssets.FlxGraphicAsset;
 
@@ -28,6 +29,14 @@ class Enemy extends FlxSprite
 			attacked = false;
 			timeAttacked = 0;
 		}
+		if (health <= 0)
+			kill();
+		FlxG.collide(this, Global.player);
+		onPlayerCollide();
+	}
+	
+	private function onPlayerCollide():Void 
+	{
 	}
 	
 	public function attack(dam:Int)
@@ -39,8 +48,6 @@ class Enemy extends FlxSprite
 				attacked = true;
 				health -= dam;
 			}
-			else
-				kill();
 		}
 	}
 	

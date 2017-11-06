@@ -31,7 +31,7 @@ class WalrusTower extends Enemy
 	
 	private function shootTusk():Void
 	{
-		var tusk:WalrusTusk = new WalrusTusk(x, y);
+		var tusk:WalrusTusk = new WalrusTusk(x, y+height/2);
 		tusk.setDirection(direction);
 	}
 	

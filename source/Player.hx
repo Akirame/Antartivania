@@ -28,6 +28,7 @@ class Player extends FlxSprite
 	private var whip:Whip;
 	private var timerAttack:Float = 0;
 	private var attacking:Bool;
+	private var energy:Int;
 
 	public function new(?X:Float=0, ?Y:Float=0)
 	{
@@ -46,6 +47,7 @@ class Player extends FlxSprite
 		whip.kill();
 		attacking = false;
 		health = 8;
+		energy = 0;
 	}
 
 	override public function update(elapsed:Float):Void
@@ -183,6 +185,22 @@ class Player extends FlxSprite
 			health += cuant;
 		else
 			health = 10;
+	}
+	
+	public function addEnergy():Void
+	{
+		energy++;
+	}
+	
+	public function getEnergy():Int
+	{
+		return energy;
+	}
+	
+	public function takeDamage(damage:Int):Void
+	{
+		health -= damage;
+		
 	}
 
 }
