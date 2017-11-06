@@ -25,9 +25,9 @@ class Player extends FlxSprite
 
 	private var state:Estado = Estado.FALL;
 	private var direction:Int = 0;
-	private var whip:Attack;
-	var timerAttack:Float = 0;
-	var attacking:Bool;
+	private var whip:Whip;
+	private var timerAttack:Float = 0;
+	private var attacking:Bool;
 
 	public function new(?X:Float=0, ?Y:Float=0)
 	{
@@ -39,12 +39,13 @@ class Player extends FlxSprite
 		animation.add("idle", [0,1], 8, true);
 		animation.add("run", [0, 1, 2, 3, 4, 5], 8, true);
 		animation.add("jump", [3], 8, true);
-		whip = new Attack(x, y);
+		whip = new Whip(x, y);
 		whip.makeGraphic(40, 16, 0xFF00FFFF);
 		FlxG.state.add(whip);
 		direction = 1;
 		whip.kill();
 		attacking = false;
+		health = 10;
 	}
 
 	override public function update(elapsed:Float):Void
@@ -57,7 +58,7 @@ class Player extends FlxSprite
 		attackDirection();
 	}
 
-	function stateMachine():Void
+	private function stateMachine():Void
 	{
 		switch (state)
 		{
@@ -129,7 +130,7 @@ class Player extends FlxSprite
 		}
 	}
 
-	function jump():Void
+	private function jump():Void
 	{
 
 		if (FlxG.keys.pressed.Z)
@@ -147,7 +148,7 @@ class Player extends FlxSprite
 		}
 	}
 
-	function hMove():Void
+	private function hMove():Void
 	{
 		if (FlxG.keys.pressed.LEFT)
 		{
@@ -168,13 +169,18 @@ class Player extends FlxSprite
 		}
 	}
 	
-	function attackDirection():Void 
+	private function attackDirection():Void 
 	{
 		if (direction==1)
 			whip.setPosition(x + width, y);
 		else if (direction ==-1)
 			whip.setPosition(x - whip.width, y);
 		whip.setPosition(whip.x, y);
+	}
+	
+	public function takeHealth(cuant:Int):Void
+	{
+		health += cuant;
 	}
 
 }

@@ -22,8 +22,9 @@ class WalrusTusk extends FlxSprite
 	{
 		move();
 		super.update(elapsed);
+		/*if (FlxG.overlap(this, Global.player))
+			trace("HIT!");*/
 		checkBoundaries();
-		
 	}
 	
 	private function checkBoundaries():Void

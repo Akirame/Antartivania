@@ -13,7 +13,7 @@ class PolarBear extends Enemy
 	{
 		super(X, Y, SimpleGraphic);
 		makeGraphic(64, 32, 0xFFFFFFFF);
-		vida = 2;
+		health = 2;
 	}
 	
 	override public function update(elapsed:Float):Void 

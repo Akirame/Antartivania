@@ -8,7 +8,7 @@ import flixel.system.FlxAssets.FlxGraphicAsset;
  * ...
  * @author G
  */
-class Attack extends FlxSprite 
+class Whip extends FlxSprite 
 {
 	private var damage:Int;
 	public function new(?X:Float=0, ?Y:Float=0) 
@@ -20,11 +20,11 @@ class Attack extends FlxSprite
 	
 	override public function update(elapsed:Float):Void 
 	{
-		FlxG.overlap(this, Global.enemyGroup,attackEnemy)
 		super.update(elapsed);
+		FlxG.overlap(this, Global.enemyGroup, attackEnemy);
 	}
 	
-	private function attackEnemy(a:Attack,e:Enemy):Void
+	private function attackEnemy(a:Whip,e:Enemy):Void
 	{
 		e.attack(damage);
 	}

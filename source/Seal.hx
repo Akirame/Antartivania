@@ -36,7 +36,7 @@ class Seal extends Enemy
 		direction = 1;
 		derecha.acceleration.y = 1400;
 		izquierda.acceleration.y = 1400;
-		vida = 1;
+		health = 1;
 	}
 
 	override public function update(elapsed:Float):Void
