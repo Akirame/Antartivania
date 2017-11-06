@@ -1,43 +1,30 @@
 package;
 
-import flixel.FlxG;
-import flixel.FlxSprite;
 import flixel.system.FlxAssets.FlxGraphicAsset;
 
 /**
  * ...
- * @author ...
+ * @author Yope
  */
-class WalrusTusk extends FlxSprite 
+class PolarBear extends Enemy 
 {
 	private var direction:Int;
 	public function new(?X:Float=0, ?Y:Float=0, ?SimpleGraphic:FlxGraphicAsset) 
 	{
 		super(X, Y, SimpleGraphic);
-		makeGraphic(8, 2, 0xFFFF00FF);
-		Global.proyectiles.add(this);
+		makeGraphic(64, 32, 0xFFFFFFFF);
+		vida = 2;
 	}
 	
 	override public function update(elapsed:Float):Void 
 	{
-		move();
 		super.update(elapsed);
-		checkBoundaries();
-		
-	}
-	
-	private function checkBoundaries():Void
-	{
-		if (x < 0 || x > FlxG.camera.scroll.x + FlxG.camera.width)
-		{
-			Global.proyectiles.remove(this, true);
-			destroy();
-		}
+		move();
 	}
 	
 	private function move():Void
 	{
-		velocity.x = 100 * direction;
+		velocity.x = direction * 50;
 	}
 	
 	public function setDirection(dir:Int):Void

@@ -1,4 +1,6 @@
 package;
+import flixel.FlxSprite;
+import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.tile.FlxTilemap;
 
 /**
@@ -8,4 +10,6 @@ import flixel.tile.FlxTilemap;
 class Global 
 {
 	static public var tilemapActual:FlxTilemap;
+	static public var proyectiles:FlxTypedGroup<FlxSprite>;
+	static public var enemyGroup:FlxTypedGroup<Enemy>;
 }

@@ -13,21 +13,13 @@ import flixel.tile.FlxTilemap;
  * ...
  * @author ...
  */
-enum Estados
-{
-	IDLE;
-	WALK;
-	ATTACK;
-	JUMP;
-}
 
 class Seal extends Enemy
 {
-	private var state:Estados;
 	private var timerMov:Float = 0;
 	private var direction:Int;
-	var derecha:FlxSprite;
-	var izquierda:FlxSprite;
+	private var derecha:FlxSprite;
+	private var izquierda:FlxSprite;
 	public function new(?X:Float=0, ?Y:Float=0)
 	{
 		super(X, Y);
@@ -39,12 +31,12 @@ class Seal extends Enemy
 		izquierda.makeGraphic(2, 8, 0xFFFF0000);
 		FlxG.state.add(derecha);
 		FlxG.state.add(izquierda);
-		state = Estados.IDLE;
 		setFacingFlip(FlxObject.LEFT, true, false);
 		setFacingFlip(FlxObject.RIGHT, false, false);
 		direction = 1;
 		derecha.acceleration.y = 1400;
 		izquierda.acceleration.y = 1400;
+		vida = 1;
 	}
 
 	override public function update(elapsed:Float):Void
@@ -66,44 +58,5 @@ class Seal extends Enemy
 		else
 			direction = direction * 1;
 		velocity.x = 10 * direction;
-	}
-	
-	private function stateMachine():Void
-	{
-		switch (state)
-		{
-			case Estados.IDLE:
-				//jump();
-				//hMove();
-				if (velocity.y != 0)
-				{
-					state = Estados.JUMP;
-				}
-				else if ( velocity.x != 0)
-				{
-					state = Estados.WALK;
-				}
-			case Estados.JUMP:
-				//hMove();
-				if (velocity.y == 0)
-				{
-					if ( velocity.x != 0)
-						state = Estados.WALK;
-					else
-						state = Estados.IDLE;
-				}
-			case Estados.WALK:
-				if (velocity.x == 0)
-					state = Estados.IDLE;
-				if (velocity.y != 0)
-					state = Estados.JUMP;
-			case Estados.ATTACK:
-				//jump();
-				//hMove();
-				if (velocity.y != 0)
-					state = Estados.JUMP;
-				else if ( velocity.x == 0)
-					state = Estados.IDLE;
-		}
 	}
 }

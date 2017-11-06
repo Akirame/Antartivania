@@ -16,13 +16,12 @@ class PlayState extends FlxState
 	private var seal:Seal;
 	private var tilemap:FlxTilemap;
 	private var loader:FlxOgmoLoader;
-	private var enemyGroup:FlxTypedGroup<Enemy>;
 	private var tileGroup:FlxTypedGroup<Tile>;
 
 	override public function create():Void
 	{
 		super.create();
-		enemyGroup = new FlxTypedGroup();
+		Global.enemyGroup = new FlxTypedGroup<Enemy>();
 		tileGroup = new FlxTypedGroup();
 		loader = new FlxOgmoLoader(AssetPaths.level1__oel);
 		tilemap = loader.loadTilemap(AssetPaths.tiles__png, 16, 16, "tiles");
@@ -41,8 +40,10 @@ class PlayState extends FlxState
 		loader.loadEntities(placeEntities, "entities");
 		FlxG.camera.follow(p1);
 		add(tilemap);
-		add(enemyGroup);
+		add(Global.enemyGroup);
 		add(tileGroup);
+		Global.proyectiles = new FlxTypedGroup<FlxSprite>();
+		add(Global.proyectiles);
 
 		Global.tilemapActual = tilemap;
 		FlxG.worldBounds.set(0, 0, tilemap.width, tilemap.height);
@@ -60,10 +61,10 @@ class PlayState extends FlxState
 				add(p1);
 			case "enemy1":
 				var e:Seal = new Seal(x,y);
-				enemyGroup.add(e);
+				Global.enemyGroup.add(e);
 			case "enemy2":
 				var e:FlyingSeal = new FlyingSeal(x, y);
-				enemyGroup.add(e);
+				Global.enemyGroup.add(e);
 			case "jumpTile":
 				var t = new Tile(x, y, null, Tile.Tipo.BOUNCING);
 				tileGroup.add(t);
@@ -81,13 +82,23 @@ class PlayState extends FlxState
 				var t = new Tile(x, y, null, Tile.Tipo.HORIZONTAL);
 				t.makeGraphic(64, 16, 0xFF00FF00);
 				tileGroup.add(t);
+			case "WalrusTower":
+				var w = new WalrusTower(x, y);
+				var dir:Int = Std.parseInt(entityData.get("direction"));
+				w.setDirection(dir);
+				Global.enemyGroup.add(w);
+			case "PolarBear":
+				var p = new PolarBear(x, y);
+				var dir:Int = Std.parseInt(entityData.get("direction"));
+				p.setDirection(dir);
+				Global.enemyGroup.add(p);
 		}
 	}
 
 	override public function update(elapsed:Float):Void
 	{
 		FlxG.collide(tilemap, p1);
-		FlxG.collide(tilemap, enemyGroup);
+		FlxG.collide(tilemap, Global.enemyGroup);
 		FlxG.collide(tileGroup, p1, CollideTilePlayer);
 		super.update(elapsed);
 

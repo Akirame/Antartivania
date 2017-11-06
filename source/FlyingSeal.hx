@@ -17,6 +17,7 @@ class FlyingSeal extends Enemy
 		makeGraphic(16, 16, 0xFF00FFFF);
 		FlxTween.tween(this, {y:y - 70}, {type:FlxTween.PINGPONG, ease:FlxEase.smoothStepInOut});
 		velocity.x -= 40;
+		vida = 1;
 	}
 	
 	override public function update(elapsed:Float):Void 

@@ -1,5 +1,6 @@
 package;
 
+import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.system.FlxAssets.FlxGraphicAsset;
 
@@ -14,5 +15,12 @@ class Attack extends FlxSprite
 	{
 		super(X, Y);
 		makeGraphic(16, 4, 0xFFFFFF00);		
+	}
+	
+	override public function update(elapsed:Float):Void 
+	{
+		if (FlxG.collide(this, Global.enemyGroup))
+			trace("MUERTO!");
+		super.update(elapsed);
 	}
 }
