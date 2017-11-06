@@ -1,27 +1,29 @@
 package;
 
 import flixel.FlxG;
-import flixel.FlxSprite;
 import flixel.system.FlxAssets.FlxGraphicAsset;
 
 /**
  * ...
- * @author Yope
+ * @author ...
  */
-class Collectable extends FlxSprite 
+class Coin extends Collectable 
 {
-	private var picked:Bool;
+	private var score:Int;
 	public function new(?X:Float=0, ?Y:Float=0, ?SimpleGraphic:FlxGraphicAsset) 
 	{
 		super(X, Y, SimpleGraphic);
-		picked = false;
-		acceleration.y = 500;
+		score = 1000;
 	}
 	
 	override public function update(elapsed:Float):Void 
 	{
-		FlxG.collide(this, Global.tilemapActual);
 		super.update(elapsed);
+		if (FlxG.overlap(this, Global.player))
+		{
+			Global.score+= score;
+			destroy();
+		}
 	}
 	
 }

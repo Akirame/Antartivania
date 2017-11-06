@@ -45,7 +45,7 @@ class Player extends FlxSprite
 		direction = 1;
 		whip.kill();
 		attacking = false;
-		health = 10;
+		health = 8;
 	}
 
 	override public function update(elapsed:Float):Void
@@ -126,7 +126,6 @@ class Player extends FlxSprite
 					attacking = false;				
 					state = Estado.IDLE;
 				}
-
 		}
 	}
 
@@ -180,7 +179,10 @@ class Player extends FlxSprite
 	
 	public function takeHealth(cuant:Int):Void
 	{
-		health += cuant;
+		if (health < 10)
+			health += cuant;
+		else
+			health = 10;
 	}
 
 }

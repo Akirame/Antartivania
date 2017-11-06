@@ -13,4 +13,5 @@ class Global
 	static public var proyectiles:FlxTypedGroup<FlxSprite>;
 	static public var enemyGroup:FlxTypedGroup<Enemy>;
 	static public var player:Player;
+	static public var score:Int;
 }

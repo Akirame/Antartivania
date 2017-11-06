@@ -23,7 +23,7 @@ class Enemy extends FlxSprite
 		super.update(elapsed);
 		if (attacked)
 			timeAttacked += elapsed;
-		if (timeAttacked >= 0.6)
+		if (timeAttacked >= 0.5)
 		{
 			attacked = false;
 			timeAttacked = 0;

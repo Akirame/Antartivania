@@ -61,5 +61,6 @@
     <player id="0" x="128" y="528" />
     <WalrusTower id="14" x="256" y="544" direction="-1" />
     <PolarBear id="15" x="240" y="544" direction="-1" />
+    <Fish id="16" x="208" y="560" />
   </entities>
 </level>

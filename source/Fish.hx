@@ -17,7 +17,7 @@ class Fish extends Collectable
 	public function new(?X:Float=0, ?Y:Float=0, ?SimpleGraphic:FlxGraphicAsset)
 	{
 		super(X, Y, SimpleGraphic);
-		makeGraphic(8, 8, 0x909090);
+		makeGraphic(8, 8, 0xFF909090);
 		cuant = 2;
 	}
 
@@ -26,7 +26,7 @@ class Fish extends Collectable
 		super.update(elapsed);
 		if (FlxG.overlap(this, Global.player))
 		{
-			Global.player.health(cuant);
+			Global.player.takeHealth(cuant);
 			destroy();
 		}
 	}

@@ -44,8 +44,8 @@ class PlayState extends FlxState
 		add(tileGroup);
 		Global.proyectiles = new FlxTypedGroup<FlxSprite>();
 		Global.player = p1;
+		Global.score = 0;
 		add(Global.proyectiles);
-
 		Global.tilemapActual = tilemap;
 		FlxG.worldBounds.set(0, 0, tilemap.width, tilemap.height);
 	}
@@ -93,6 +93,9 @@ class PlayState extends FlxState
 				var dir:Int = Std.parseInt(entityData.get("direction"));
 				p.setDirection(dir);
 				Global.enemyGroup.add(p);
+			case "Fish":
+				var f = new Fish(x, y);
+				add(f);
 		}
 	}
 
