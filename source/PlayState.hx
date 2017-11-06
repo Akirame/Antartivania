@@ -43,6 +43,7 @@ class PlayState extends FlxState
 		add(Global.enemyGroup);
 		add(tileGroup);
 		Global.proyectiles = new FlxTypedGroup<FlxSprite>();
+		Global.player = p1;
 		add(Global.proyectiles);
 
 		Global.tilemapActual = tilemap;

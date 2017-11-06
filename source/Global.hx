@@ -12,4 +12,5 @@ class Global
 	static public var tilemapActual:FlxTilemap;
 	static public var proyectiles:FlxTypedGroup<FlxSprite>;
 	static public var enemyGroup:FlxTypedGroup<Enemy>;
+	static public var player:Player;
 }

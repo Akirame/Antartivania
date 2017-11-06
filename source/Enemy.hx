@@ -9,8 +9,8 @@ import flixel.system.FlxAssets.FlxGraphicAsset;
  */
 class Enemy extends FlxSprite
 {
-	var vida:Int;
-	var danio:Int;
+	var health:Int;
+	var damage:Int;
 	public function new(?X:Float=0, ?Y:Float=0, ?SimpleGraphic:FlxGraphicAsset) 
 	{
 		super(X, Y);
@@ -19,6 +19,11 @@ class Enemy extends FlxSprite
 	override public function update(elapsed:Float):Void 
 	{
 		super.update(elapsed);
+	}
+	
+	public function attack(damage:Int)
+	{
+		health -= damage;
 	}
 	
 }
