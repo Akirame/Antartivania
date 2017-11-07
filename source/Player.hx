@@ -1,5 +1,6 @@
 package;
 
+import AxeSecondary;
 import flixel.FlxG;
 import flixel.FlxObject;
 import flixel.FlxSprite;
@@ -21,6 +22,7 @@ enum Estado
 	JUMP;
 	FALL;
 	ATTACK;
+	SECONDARY;
 }
 
 enum Upgrades
@@ -41,10 +43,11 @@ class Player extends FlxSprite
 	private var canBeAttacked:Bool;
 	private var timeAttacked:Float = 0;
 	private var energy:Int;
-	private var secondary:Upgrades = Upgrades.SHIELD;
+	private var secondary:Upgrades = Upgrades.NONE;
 	private var axe:AxeSecondary;
 	private var knife:KnifeSecondary;
 	private var shield:ShieldSecondary;
+	private var attacking2nd:Bool;
 
 	public function new(?X:Float=0, ?Y:Float=0)
 	{
@@ -63,6 +66,7 @@ class Player extends FlxSprite
 		whip.kill();
 		attacking = false;
 		canBeAttacked = true;
+		attacking2nd = false;
 		health = 8;
 		energy = 0;
 		direction = 1;
@@ -74,33 +78,7 @@ class Player extends FlxSprite
 		stateMachine();
 		super.update(elapsed);
 		acceleration.x = 0;
-		attackedManagment();
-		secondaryAttack();
-	}
-	
-	private function secondaryAttack():Void
-	{
-		if (FlxG.keys.pressed.UP && FlxG.keys.justPressed.X && energy>0)
-		{
-			switch (secondary) 
-			{
-				case Upgrades.NONE:
-					
-				case Upgrades.AXE:
-					axe = new AxeSecondary(x, y);
-					FlxG.state.add(axe);
-					energy--;
-				case Upgrades.KNIFE:
-					knife = new KnifeSecondary(x, y);
-					FlxG.state.add(knife);
-					energy--;
-				case Upgrades.SHIELD:
-					shield = new ShieldSecondary(x, y);
-					FlxG.state.add(shield);
-					energy--;
-			}
-		}
-		
+		attackedManagment();		
 	}
 	
 	private function attackedManagment():Void 
@@ -127,6 +105,8 @@ class Player extends FlxSprite
 				attack();
 				if (attacking)
 					state = Estado.ATTACK;
+				if (attacking2nd)
+					state = Estado.SECONDARY;
 				if (velocity.y != 0)
 					state = Estado.JUMP;
 				else if (velocity.x != 0)
@@ -139,6 +119,8 @@ class Player extends FlxSprite
 				attack();
 				if (attacking)
 					state = Estado.ATTACK;
+				if (attacking2nd)
+					state = Estado.SECONDARY;
 				if (!isTouching(FlxObject.FLOOR))
 				{
 					state = Estado.FALL;
@@ -152,8 +134,7 @@ class Player extends FlxSprite
 
 			case Estado.JUMP:
 				attack();
-				if (attacking)
-					state = Estado.ATTACK;
+				
 				if (velocity.y == 0)
 				{
 					if (velocity.x == 0)
@@ -168,7 +149,7 @@ class Player extends FlxSprite
 				if (isTouching(FlxObject.FLOOR))
 					state = Estado.IDLE;
 
-			case Estado.ATTACK:
+			case Estado.ATTACK:			
 				timerAttack += FlxG.elapsed;
 				if(isTouching(FlxObject.FLOOR))
 					velocity.x = 0;
@@ -177,6 +158,15 @@ class Player extends FlxSprite
 					timerAttack = 0;
 					whip.kill();
 					attacking = false;				
+					state = Estado.IDLE;
+				}
+			
+			case Estado.SECONDARY:
+				timerAttack += FlxG.elapsed;
+				if (timerAttack > 0.3)				
+				{
+					timerAttack = 0;					
+					attacking2nd = false;				
 					state = Estado.IDLE;
 				}
 		}
@@ -192,8 +182,32 @@ class Player extends FlxSprite
 	}
 
 	private function attack():Void
-	{
-		if (FlxG.keys.justPressed.X)
+	{	
+		if (FlxG.keys.pressed.UP && FlxG.keys.justPressed.X && energy>0)
+		{
+			attacking2nd = true;
+			switch (secondary) 
+			{
+				case Upgrades.NONE:
+					
+				case Upgrades.AXE:
+					axe = new AxeSecondary(x, y);
+					FlxG.state.add(axe);
+					energy--;
+				case Upgrades.KNIFE:
+					knife = new KnifeSecondary(x, y);
+					FlxG.state.add(knife);
+					energy--;
+				case Upgrades.SHIELD:
+					shield = new ShieldSecondary(x, y);
+					FlxG.state.add(shield);
+					if (energy >= 2)
+					energy -= 2;
+					else
+					energy--;
+			}
+		}
+		else if (FlxG.keys.justPressed.X)
 		{
 			whip.revive();
 			whip.changePosition();
@@ -234,7 +248,7 @@ class Player extends FlxSprite
 	
 	public function addEnergy():Void
 	{
-		energy++;
+		energy += 5;
 	}
 	
 	public function getEnergy():Int
@@ -255,6 +269,11 @@ class Player extends FlxSprite
 	public function get_direction():Int 
 	{
 		return direction;
+	}
+	
+	public function setSecondary(_secondary:Upgrades):Void
+	{
+		secondary = _secondary;
 	}
 	
 }

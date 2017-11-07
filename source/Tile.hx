@@ -3,6 +3,7 @@ package;
 import flixel.FlxG;
 import flixel.FlxObject;
 import flixel.FlxSprite;
+import flixel.math.FlxRandom;
 import flixel.system.FlxAssets.FlxGraphicAsset;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
@@ -23,11 +24,14 @@ enum Tipo
 class Tile extends FlxSprite 
 {
 	private var _tipo:Tipo = BOUNCING;
-	private var fisshi:Fish;
+	private var fisshi:Collectable;
+	
+	private var randValue:FlxRandom;
 	
 	
 	public function new(?X:Float = 0, ?Y:Float = 0, ?SimpleGraphic:FlxGraphicAsset,type:Tipo)
 	{
+		randValue = new FlxRandom();
 		super(X, Y, SimpleGraphic);
 		immovable = true;
 		_tipo = type;
@@ -77,9 +81,27 @@ class Tile extends FlxSprite
 	}
 	public function addFish():Void
 	{
-		trace("culo");
+		if (randValue.bool(70))
+		{
 		fisshi = new Fish(x, y);
 		FlxG.state.add(fisshi);
 		destroy();
+		}
+		else switch (randValue.int(1,3))
+		{
+			case 1:
+				fisshi = new AxePickup(x, y);
+				FlxG.state.add(fisshi);
+				destroy();
+			case 2:
+				fisshi = new KnifePickup(x, y);
+				FlxG.state.add(fisshi);
+				destroy();
+			case 3:
+				fisshi = new BombPickup(x, y);
+				FlxG.state.add(fisshi);
+				destroy();
+				
+		}
 	}
 }
