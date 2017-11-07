@@ -22,6 +22,17 @@ class Whip extends FlxSprite
 	{
 		super.update(elapsed);
 		FlxG.overlap(this, Global.enemyGroup, attackEnemy);
+		FlxG.overlap(this, Global.tileGroup, attackUpgrade);
+	}
+	
+	function attackUpgrade(a:Whip,t:Tile):Void
+	{
+		
+		trace("culito");
+		if (t.getTipo() == Tile.Tipo.UPGRADE)
+		{
+			t.addFish();
+		}
 	}
 	
 	private function attackEnemy(a:Whip,e:Enemy):Void

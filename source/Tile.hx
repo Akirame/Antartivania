@@ -1,5 +1,6 @@
 package;
 
+import flixel.FlxG;
 import flixel.FlxObject;
 import flixel.FlxSprite;
 import flixel.system.FlxAssets.FlxGraphicAsset;
@@ -17,10 +18,13 @@ enum Tipo
 	TRANSPORTRIGHT;
 	VERTICAL;
 	HORIZONTAL;
+	UPGRADE;
 }
 class Tile extends FlxSprite 
 {
-	public var _tipo(get, null):Tipo;
+	private var _tipo:Tipo = BOUNCING;
+	private var fisshi:Fish;
+	
 	
 	public function new(?X:Float = 0, ?Y:Float = 0, ?SimpleGraphic:FlxGraphicAsset,type:Tipo)
 	{
@@ -39,27 +43,43 @@ class Tile extends FlxSprite
 				scale.set(0.5, 0.5);
 				updateHitbox();
 				animation.play("boingIDLE");
+				
 			case Tipo.HORIZONTAL:
-				FlxTween.tween(this, {x:x+100}, 3, {type:FlxTween.PINGPONG, ease:FlxEase.smoothStepInOut});
+				FlxTween.tween(this, {x:x + 100}, 3, {type:FlxTween.PINGPONG, ease:FlxEase.smoothStepInOut});
+				
+			case Tipo.VERTICAL:
+					FlxTween.tween(this, {y:y - 100}, 3, {type:FlxTween.PINGPONG, ease:FlxEase.smoothStepInOut});
+					
 			case Tipo.TRANSPORTLEFT:
 				facing = FlxObject.RIGHT;
 				scale.set(0.5, 0.5);
 				updateHitbox();
 				animation.play("transport");
+				
 			case Tipo.TRANSPORTRIGHT:
 				facing = FlxObject.LEFT;
 				scale.set(0.5, 0.5);
 				updateHitbox();
 				animation.play("transport");
-			case Tipo.VERTICAL:
-					FlxTween.tween(this, {y:y-100}, 3, {type:FlxTween.PINGPONG, ease:FlxEase.smoothStepInOut});
+			
+			case Tipo.UPGRADE:
+				scale.set(0.5, 0.5);
+				updateHitbox();
+				animation.play("transport");
+				
 		}
 	}
 	
 	
-	function get__tipo():Tipo 
+	public function getTipo():Tipo 
 	{
 		return _tipo;
 	}
-	
+	public function addFish():Void
+	{
+		trace("culo");
+		fisshi = new Fish(x, y);
+		FlxG.state.add(fisshi);
+		destroy();
+	}
 }

@@ -20,15 +20,27 @@ enum Estado
 	FALL;
 	ATTACK;
 }
+
+enum Upgrades
+{
+	NONE;
+	AXE;
+	KNIFE;
+	SHIELD;
+}
 class Player extends FlxSprite
 {
 
 	private var state:Estado = Estado.FALL;
-	private var direction:Int = 0;
+	private var direction(get, null):Int = 0;
 	private var whip:Whip;
 	private var timerAttack:Float = 0;
 	private var attacking:Bool;
 	private var energy:Int;
+	private var secondary:Upgrades = Upgrades.SHIELD;
+	private var axe:AxeSecondary;
+	private var knife:KnifeSecondary;
+	private var shield:ShieldSecondary;
 
 	public function new(?X:Float=0, ?Y:Float=0)
 	{
@@ -58,6 +70,26 @@ class Player extends FlxSprite
 		velocity.x = 0;
 		acceleration.x = 0;
 		attackDirection();
+		if (FlxG.keys.pressed.UP && FlxG.keys.justPressed.X && energy>0)
+		{
+			switch (secondary) 
+			{
+				case Upgrades.NONE:
+					
+				case Upgrades.AXE:
+					axe = new AxeSecondary(x, y);
+					FlxG.state.add(axe);
+					energy--;
+				case Upgrades.KNIFE:
+					knife = new KnifeSecondary(x, y);
+					FlxG.state.add(knife);
+					energy--;
+				case Upgrades.SHIELD:
+					shield = new ShieldSecondary(x, y);
+					FlxG.state.add(shield);
+					energy--;
+			}
+		}
 	}
 
 	private function stateMachine():Void
@@ -65,7 +97,7 @@ class Player extends FlxSprite
 		switch (state)
 		{
 			case Estado.IDLE:
-				animation.play("idle");
+				//animation.play("idle");
 				hMove();
 				jump();
 				attack();
@@ -77,7 +109,7 @@ class Player extends FlxSprite
 					state = Estado.RUN;
 
 			case Estado.RUN:
-				animation.play("run");
+				//animation.play("run");
 				hMove();
 				jump();
 				attack();
@@ -96,7 +128,7 @@ class Player extends FlxSprite
 				}
 
 			case Estado.JUMP:
-				animation.play("jump");
+				//animation.play("jump");
 				if (!isTouching(FlxObject.FLOOR))
 					velocity.x += 100 * direction;
 				attack();
@@ -202,5 +234,10 @@ class Player extends FlxSprite
 		health -= damage;
 		
 	}
-
+	
+	public function get_direction():Int 
+	{
+		return direction;
+	}
+	
 }

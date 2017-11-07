@@ -7,7 +7,7 @@ import flixel.system.FlxAssets.FlxGraphicAsset;
  * ...
  * @author Yope
  *
- * CURA AL PERSONAJE (CORAZON)
+ * AÑADE ENERGIA(CORAZON EN CASTLEVANIA)
  *
  *
  */
@@ -25,6 +25,7 @@ class Fish extends Collectable
 		if (FlxG.overlap(this, Global.player))
 		{
 			Global.player.addEnergy();
+			trace(Global.player.getEnergy());
 			destroy();
 		}
 	}

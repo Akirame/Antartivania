@@ -61,6 +61,10 @@
     <WalrusTower id="14" x="256" y="544" direction="-1" />
     <PolarBear id="15" x="240" y="544" direction="-1" />
     <Fish id="16" x="208" y="560" />
-    <player id="17" x="1632" y="128" />
+    <Fish id="17" x="64" y="528" />
+    <Fish id="18" x="48" y="528" />
+    <Fish id="19" x="32" y="528" />
+    <player id="20" x="1520" y="96" />
+    <upgradeTile id="0" x="1680" y="304" />
   </entities>
 </level>

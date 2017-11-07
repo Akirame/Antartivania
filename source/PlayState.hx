@@ -16,13 +16,12 @@ class PlayState extends FlxState
 	private var seal:Seal;
 	private var tilemap:FlxTilemap;
 	private var loader:FlxOgmoLoader;
-	private var tileGroup:FlxTypedGroup<Tile>;
 
 	override public function create():Void
 	{
 		super.create();
 		Global.enemyGroup = new FlxTypedGroup<Enemy>();
-		tileGroup = new FlxTypedGroup();
+		Global.tileGroup = new FlxTypedGroup();
 		loader = new FlxOgmoLoader(AssetPaths.level1__oel);
 		tilemap = loader.loadTilemap(AssetPaths.tiles__png, 16, 16, "tiles");
 		tilemap.setTileProperties(0, FlxObject.NONE);
@@ -41,7 +40,7 @@ class PlayState extends FlxState
 		FlxG.camera.follow(p1);
 		add(tilemap);
 		add(Global.enemyGroup);
-		add(tileGroup);
+		add(Global.tileGroup);
 		Global.proyectiles = new FlxTypedGroup<FlxSprite>();
 		Global.player = p1;
 		Global.score = 0;
@@ -68,21 +67,21 @@ class PlayState extends FlxState
 				Global.enemyGroup.add(e);
 			case "jumpTile":
 				var t = new Tile(x, y, null, Tile.Tipo.BOUNCING);
-				tileGroup.add(t);
+				Global.tileGroup.add(t);
 			case "tTileLeft":
 				var t = new Tile(x, y, null, Tile.Tipo.TRANSPORTLEFT);
-				tileGroup.add(t);
+				Global.tileGroup.add(t);
 			case "tTileRight":
 				var t = new Tile(x, y, null, Tile.Tipo.TRANSPORTRIGHT);
-				tileGroup.add(t);
+				Global.tileGroup.add(t);
 			case "VerticalTile":
 				var t = new Tile(x, y, null, Tile.Tipo.VERTICAL);
 				t.loadGraphic(AssetPaths.icyFlying__png, false, 128, 32);
-				tileGroup.add(t);
+				Global.tileGroup.add(t);
 			case "HorizontalTile":
 				var t = new Tile(x, y, null, Tile.Tipo.HORIZONTAL);
 				t.loadGraphic(AssetPaths.icyFlying__png, false, 128, 32);
-				tileGroup.add(t);
+				Global.tileGroup.add(t);
 			case "WalrusTower":
 				var w = new WalrusTower(x, y);
 				var dir:Int = Std.parseInt(entityData.get("direction"));
@@ -93,9 +92,9 @@ class PlayState extends FlxState
 				var dir:Int = Std.parseInt(entityData.get("direction"));
 				p.setDirection(dir);
 				Global.enemyGroup.add(p);
-			case "Fish":
-				var f = new Fish(x, y);
-				add(f);
+			case "upgradeTile":
+				var f = new Tile(x, y,null, Tile.Tipo.UPGRADE);
+				Global.tileGroup.add(f);
 		}
 	}
 
@@ -103,7 +102,7 @@ class PlayState extends FlxState
 	{
 		FlxG.collide(tilemap, p1);
 		FlxG.collide(tilemap, Global.enemyGroup);
-		FlxG.collide(tileGroup, p1, CollideTilePlayer);
+		FlxG.collide(Global.tileGroup, p1, CollideTilePlayer);		
 		super.update(elapsed);
 
 	}
@@ -112,14 +111,14 @@ class PlayState extends FlxState
 	{
 		if (p.isTouching(FlxObject.FLOOR) && !p.isTouching(FlxObject.WALL))
 		{
-			if (t._tipo == Tile.Tipo.BOUNCING)
+			if (t.getTipo() == Tile.Tipo.BOUNCING)
 			{
 				t.animation.play("boingACTIVE");				
 				p.velocity.y = -300;
 			}
-			else if (t._tipo == Tile.Tipo.TRANSPORTRIGHT)
+			else if (t.getTipo() == Tile.Tipo.TRANSPORTRIGHT)
 				p.acceleration.x = 5000;
-			else if (t._tipo == Tile.Tipo.TRANSPORTLEFT)
+			else if (t.getTipo() == Tile.Tipo.TRANSPORTLEFT)
 				p.acceleration.x = -5000;
 		}
 	}
