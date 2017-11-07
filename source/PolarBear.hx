@@ -24,16 +24,6 @@ class PolarBear extends Enemy
 		move();
 	}
 	
-	override function onPlayerCollide():Void 
-	{
-		super.onPlayerCollide();
-	}
-	
-	private function attackPlayer(p:Player,b:PolarBear):Void
-	{
-		p.takeDamage(damage);
-	}
-	
 	private function move():Void
 	{
 		velocity.x = direction * 50;

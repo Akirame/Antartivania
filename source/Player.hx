@@ -6,6 +6,8 @@ import flixel.FlxSprite;
 import flixel.math.FlxPoint;
 import flixel.math.FlxVelocity;
 import flixel.system.FlxAssets.FlxGraphicAsset;
+import flixel.tweens.FlxEase;
+import flixel.tweens.FlxTween;
 
 /**
  * ...
@@ -32,10 +34,12 @@ class Player extends FlxSprite
 {
 
 	private var state:Estado = Estado.FALL;
-	private var direction(get, null):Int = 0;
+	private var direction(get, null):Int;
 	private var whip:Whip;
 	private var timerAttack:Float = 0;
 	private var attacking:Bool;
+	private var canBeAttacked:Bool;
+	private var timeAttacked:Float = 0;
 	private var energy:Int;
 	private var secondary:Upgrades = Upgrades.SHIELD;
 	private var axe:AxeSecondary;
@@ -58,8 +62,10 @@ class Player extends FlxSprite
 		direction = 1;
 		whip.kill();
 		attacking = false;
+		canBeAttacked = true;
 		health = 8;
 		energy = 0;
+		direction = 1;
 	}
 
 	override public function update(elapsed:Float):Void
@@ -67,9 +73,13 @@ class Player extends FlxSprite
 	
 		stateMachine();
 		super.update(elapsed);
-		velocity.x = 0;
 		acceleration.x = 0;
-		attackDirection();
+		attackedManagment();
+		secondaryAttack();
+	}
+	
+	private function secondaryAttack():Void
+	{
 		if (FlxG.keys.pressed.UP && FlxG.keys.justPressed.X && energy>0)
 		{
 			switch (secondary) 
@@ -89,6 +99,20 @@ class Player extends FlxSprite
 					FlxG.state.add(shield);
 					energy--;
 			}
+		}
+		
+	}
+	
+	private function attackedManagment():Void 
+	{
+		if (canBeAttacked == false)
+		{
+			timeAttacked += FlxG.elapsed;
+		}
+		if (timeAttacked >= 2)
+		{
+			canBeAttacked = true;
+			timeAttacked = 0;
 		}
 	}
 
@@ -124,13 +148,9 @@ class Player extends FlxSprite
 				else if (velocity.x == 0)
 				{
 					state = Estado.IDLE;
-					direction = 0;
 				}
 
 			case Estado.JUMP:
-				//animation.play("jump");
-				if (!isTouching(FlxObject.FLOOR))
-					velocity.x += 100 * direction;
 				attack();
 				if (attacking)
 					state = Estado.ATTACK;
@@ -139,7 +159,6 @@ class Player extends FlxSprite
 					if (velocity.x == 0)
 					{
 						state = Estado.IDLE;
-						direction = 0;
 					}
 					else
 						state = Estado.RUN;
@@ -150,9 +169,9 @@ class Player extends FlxSprite
 					state = Estado.IDLE;
 
 			case Estado.ATTACK:
-				if (!isTouching(FlxObject.FLOOR))
-					velocity.x += 100 * direction;
 				timerAttack += FlxG.elapsed;
+				if(isTouching(FlxObject.FLOOR))
+					velocity.x = 0;
 				if (timerAttack > 0.5)
 				{
 					timerAttack = 0;
@@ -177,6 +196,7 @@ class Player extends FlxSprite
 		if (FlxG.keys.justPressed.X)
 		{
 			whip.revive();
+			whip.changePosition();
 			attacking = true;
 		}
 	}
@@ -185,14 +205,16 @@ class Player extends FlxSprite
 	{
 		if (FlxG.keys.pressed.LEFT)
 		{
-			velocity.x -= 100;
+			velocity.x = -100 * FlxG.elapsed * FlxG.updateFramerate;
 			direction = -1;
 		}
-		if (FlxG.keys.pressed.RIGHT)
+		else if (FlxG.keys.pressed.RIGHT)
 		{
-			velocity.x += 100;
+			velocity.x = 100 * FlxG.elapsed * FlxG.updateFramerate;
 			direction = 1;
 		}
+		else
+			velocity.x = 0;
 		if (isTouching(FlxObject.FLOOR) && velocity.y == 0)
 		{
 			if (velocity.x != 0)
@@ -200,15 +222,6 @@ class Player extends FlxSprite
 				facing = (velocity.x > 0) ? FlxObject.RIGHT : FlxObject.LEFT;
 			}
 		}
-	}
-	
-	private function attackDirection():Void 
-	{
-		if (direction==1)
-			whip.setPosition(x + width, y);
-		else if (direction ==-1)
-			whip.setPosition(x - whip.width, y);
-		whip.setPosition(whip.x, y);
 	}
 	
 	public function takeHealth(cuant:Int):Void
@@ -231,8 +244,12 @@ class Player extends FlxSprite
 	
 	public function takeDamage(damage:Int):Void
 	{
-		health -= damage;
-		
+		if (canBeAttacked && health > 0)
+		{
+			canBeAttacked = false;
+			health -= damage;
+			velocity.set(50 *direction, -50);
+		}
 	}
 	
 	public function get_direction():Int 

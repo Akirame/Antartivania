@@ -31,12 +31,12 @@ class Enemy extends FlxSprite
 		}
 		if (health <= 0)
 			kill();
-		FlxG.collide(this, Global.player);
-		onPlayerCollide();
+		FlxG.collide(Global.player,this,attackPlayer);
 	}
-	
-	private function onPlayerCollide():Void 
+
+	private function attackPlayer(p:Player,b:PolarBear):Void
 	{
+		p.takeDamage(damage);
 	}
 	
 	public function attack(dam:Int)

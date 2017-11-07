@@ -16,15 +16,26 @@ class Whip extends FlxSprite
 		super(X, Y);
 		makeGraphic(16, 4, 0xFFFFFF00);	
 		damage = 1;
+		pixelPerfectPosition = false;
 	}
 	
 	override public function update(elapsed:Float):Void 
 	{
+		changePosition();
 		super.update(elapsed);
 		FlxG.overlap(this, Global.enemyGroup, attackEnemy);
 		FlxG.overlap(this, Global.tileGroup, attackUpgrade);
+		
 	}
-	
+
+	public function changePosition():Void 
+	{
+		if (Global.player.get_direction()==1)
+			setPosition(Global.player.x + Global.player.width, Global.player.y);
+		else if (Global.player.get_direction() == -1)
+			setPosition(Global.player.x - width, Global.player.y);
+	}	
+
 	function attackUpgrade(a:Whip,t:Tile):Void
 	{
 		

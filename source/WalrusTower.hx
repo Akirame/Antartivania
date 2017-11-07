@@ -16,6 +16,7 @@ class WalrusTower extends Enemy
 		makeGraphic(16, 32, 0xFFFF00FF);
 		immovable = true;
 		health = 4;
+		damage = 0;
 	}
 	
 	override public function update(elapsed:Float):Void 
