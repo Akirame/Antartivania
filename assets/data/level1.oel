@@ -58,9 +58,9 @@
     <jumpTile id="11" x="1824" y="336" />
     <VerticalTile id="12" x="1520" y="160" />
     <HorizontalTile id="13" x="1568" y="240" />
-    <player id="0" x="128" y="528" />
     <WalrusTower id="14" x="256" y="544" direction="-1" />
     <PolarBear id="15" x="240" y="544" direction="-1" />
     <Fish id="16" x="208" y="560" />
+    <player id="17" x="1632" y="128" />
   </entities>
 </level>

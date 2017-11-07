@@ -77,11 +77,11 @@ class PlayState extends FlxState
 				tileGroup.add(t);
 			case "VerticalTile":
 				var t = new Tile(x, y, null, Tile.Tipo.VERTICAL);
-				t.makeGraphic(64, 16, 0xFF00FF00);
+				t.loadGraphic(AssetPaths.icyFlying__png, false, 128, 32);
 				tileGroup.add(t);
 			case "HorizontalTile":
 				var t = new Tile(x, y, null, Tile.Tipo.HORIZONTAL);
-				t.makeGraphic(64, 16, 0xFF00FF00);
+				t.loadGraphic(AssetPaths.icyFlying__png, false, 128, 32);
 				tileGroup.add(t);
 			case "WalrusTower":
 				var w = new WalrusTower(x, y);
@@ -114,7 +114,7 @@ class PlayState extends FlxState
 		{
 			if (t._tipo == Tile.Tipo.BOUNCING)
 			{
-				t.animation.play("boingACTIVE");
+				t.animation.play("boingACTIVE");				
 				p.velocity.y = -300;
 			}
 			else if (t._tipo == Tile.Tipo.TRANSPORTRIGHT)
