@@ -67,26 +67,32 @@ class PlayState extends FlxState
 			case "jumpTile":
 				var t = new Tile(x, y, null, Tile.Tipo.BOUNCING);
 				Global.tileGroup.add(t);
+				t.kill();
 			case "tTileLeft":
 				var t = new Tile(x, y, null, Tile.Tipo.TRANSPORTLEFT);
 				Global.tileGroup.add(t);
+				t.kill();
 			case "tTileRight":
 				var t = new Tile(x, y, null, Tile.Tipo.TRANSPORTRIGHT);
 				Global.tileGroup.add(t);
+				t.kill();
 			case "VerticalTile":
 				var t = new Tile(x, y, null, Tile.Tipo.VERTICAL);
 				t.loadGraphic(AssetPaths.icyFlying__png, false, 128, 32);
 				Global.tileGroup.add(t);
+				t.kill();
 			case "HorizontalTile":
 				var t = new Tile(x, y, null, Tile.Tipo.HORIZONTAL);
 				t.loadGraphic(AssetPaths.icyFlying__png, false, 128, 32);
 				Global.tileGroup.add(t);
+				t.kill();
 			case "StairTile":
 				var t = new Tile(x, y, null, Tile.Tipo.STAIR);
 				t.makeGraphic(16, 16, 0xFFFF0000);
 				t.allowCollisions = FlxObject.UP;
 				Global.tileGroup.add(t);
 				t.setDirection(Std.parseInt(entityData.get("direction")));
+				t.kill();
 				
 			case "WalrusTower":
 				var w = new WalrusTower(x, y);
@@ -101,6 +107,7 @@ class PlayState extends FlxState
 			case "upgradeTile":
 				var f = new Tile(x, y,null, Tile.Tipo.UPGRADE);
 				Global.tileGroup.add(f);
+				f.kill();
 			case "player":
 				p1 = new Player(x, y);
 		}
@@ -108,12 +115,24 @@ class PlayState extends FlxState
 
 	override public function update(elapsed:Float):Void
 	{
+		entitiesRespawn();
 		FlxG.collide(tilemap, p1);
 		FlxG.collide(tilemap, Global.enemyGroup);
 		FlxG.collide(Global.tileGroup, p1, CollideTilePlayer);
 		FlxG.overlap(Global.tileGroup, p1, overlapStair);
 		super.update(elapsed);
 
+	}
+	
+	function entitiesRespawn() 
+	{
+		for (entities in Global.tileGroup)
+		{
+			if (entities.isOnScreen() && !entities.alive)
+			entities.revive();
+			else if (!entities.isOnScreen() && entities.alive)
+			entities.kill();
+		}
 	}
 	
 	private function overlapStair(t:Tile,p:Player):Void

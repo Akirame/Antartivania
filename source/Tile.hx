@@ -91,23 +91,19 @@ class Tile extends FlxSprite
 		if (randValue.bool(70))
 		{
 		fisshi = new Fish(x, y);
-		FlxG.state.add(fisshi);
-		destroy();
+		FlxG.state.add(fisshi);		
 		}
 		else switch (randValue.int(1,3))
 		{
 			case 1:
 				fisshi = new AxePickup(x, y);
-				FlxG.state.add(fisshi);
-				destroy();
+				FlxG.state.add(fisshi);				
 			case 2:
 				fisshi = new KnifePickup(x, y);
-				FlxG.state.add(fisshi);
-				destroy();
+				FlxG.state.add(fisshi);				
 			case 3:
 				fisshi = new BombPickup(x, y);
-				FlxG.state.add(fisshi);
-				destroy();
+				FlxG.state.add(fisshi);				
 				
 		}
 	}

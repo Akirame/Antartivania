@@ -39,6 +39,7 @@ class Whip extends FlxSprite
 		if (t.getTipo() == Tile.Tipo.UPGRADE)
 		{
 			t.addFish();
+			Global.tileGroup.remove(t);
 		}
 	}
 	
