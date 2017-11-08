@@ -92,6 +92,8 @@ class Player extends FlxSprite
 		whip.changePosition();
 		if (acceleration.y == 0 && FlxG.keys.pressed.UP)
 			acceleration.y = 1400;
+		if (health > 20)
+			health = 20;
 	}
 	
 	private function traceState():Void
@@ -270,10 +272,10 @@ class Player extends FlxSprite
 	
 	public function takeHealth(cuant:Int):Void
 	{
-		if (health < 10)
+		if (health < 20)
 			health += cuant;
 		else
-			health = 10;
+			health = 20;
 	}
 	
 	public function addEnergy():Void

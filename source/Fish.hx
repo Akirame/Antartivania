@@ -1,6 +1,7 @@
 package;
 
 import flixel.FlxG;
+import flixel.math.FlxRandom;
 import flixel.system.FlxAssets.FlxGraphicAsset;
 
 /**
@@ -13,7 +14,7 @@ import flixel.system.FlxAssets.FlxGraphicAsset;
  */
 class Fish extends Collectable
 {
-	
+	private var random:FlxRandom = new FlxRandom();
 	
 	public function new(?X:Float=0, ?Y:Float=0, ?SimpleGraphic:FlxGraphicAsset)
 	{
@@ -29,7 +30,7 @@ class Fish extends Collectable
 	{
 		super.pickup(c, p);
 		Global.player.addEnergy();
-		trace(Global.player.getEnergy());
+		Global.player.takeHealth(random.int(1, 5));
 		destroy();
 	}
 
