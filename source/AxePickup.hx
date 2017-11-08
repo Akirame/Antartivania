@@ -12,7 +12,11 @@ class AxePickup extends Collectable
 	public function new(?X:Float=0, ?Y:Float=0, ?SimpleGraphic:FlxGraphicAsset) 
 	{
 		super(X, Y, SimpleGraphic);
-		makeGraphic(8, 8, 0xFF00FF00);
+		loadGraphic(AssetPaths.axeSheet__png, true, 32, 32);
+		animation.add("active", [0], 8, true);
+		scale.set(0.5, 0.5);
+		updateHitbox();
+		animation.play("active");
 	}
 	
 	override public function pickup(c:Collectable, p:Player):Void 

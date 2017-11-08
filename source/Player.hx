@@ -80,6 +80,7 @@ class Player extends FlxSprite
 		acceleration.x = 0;
 		attackedManagment();
 		secondaryAttack();
+		attackedManagment();		
 		whip.changePosition();
 	}
 	
@@ -165,6 +166,8 @@ class Player extends FlxSprite
 			
 			case Estado.SECONDARY:
 				timerAttack += FlxG.elapsed;
+				if(isTouching(FlxObject.FLOOR))
+					velocity.x = 0;
 				if (timerAttack > 0.3)				
 				{
 					timerAttack = 0;					

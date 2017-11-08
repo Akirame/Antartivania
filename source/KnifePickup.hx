@@ -12,7 +12,11 @@ class KnifePickup extends Collectable
 		public function new(?X:Float=0, ?Y:Float=0, ?SimpleGraphic:FlxGraphicAsset) 
 	{
 		super(X, Y, SimpleGraphic);
-		makeGraphic(8, 8, 0xFFFFFFFF);
+		loadGraphic(AssetPaths.knifeSheet__png, true, 29, 17);
+		scale.set(0.5, 0.5);
+		updateHitbox();
+		animation.add("active", [1], 8, true);
+		animation.play("active");
 	}
 	
 	override public function pickup(c:Collectable, p:Player):Void 

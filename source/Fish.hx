@@ -18,7 +18,11 @@ class Fish extends Collectable
 	public function new(?X:Float=0, ?Y:Float=0, ?SimpleGraphic:FlxGraphicAsset)
 	{
 		super(X, Y, SimpleGraphic);
-		makeGraphic(8, 8, 0xFF909090);
+		loadGraphic(AssetPaths.fishPickup__png, true, 32, 32);
+		animation.add("active", [0, 1], 4, true);
+		scale.set(0.3, 0.3);
+		updateHitbox();
+		animation.play("active");
 	}
 
 	override public function pickup(c:Collectable, p:Player):Void 

@@ -18,20 +18,28 @@ class KnifeSecondary extends FlxSprite
 	{
 		super(X, Y);
 		damage = 1;
-		makeGraphic(8, 8, 0xFFFFFFFF);
+		loadGraphic(AssetPaths.knifeSheet__png, true, 29, 17);
+		scale.set(0.5, 0.5);
+		updateHitbox();
+		animation.add("active", [0, 1], 8, true);
+		setFacingFlip(FlxObject.LEFT, true, false);
+		setFacingFlip(FlxObject.RIGHT, false, false);
 		if (Global.player.facing == FlxObject.RIGHT)
 		{
-		velocity.x = 300;
+			facing = FlxObject.RIGHT;
+		velocity.x = 200;
 		}
 		else if (Global.player.facing == FlxObject.LEFT)
 		{
-		velocity.x = -300;
+			facing = FlxObject.LEFT;
+		velocity.x = -200;
 		}
 	}	
 	
 	override public function update(elapsed:Float):Void 
 	{
 		super.update(elapsed);
+		animation.play("active");
 		OOB();
 		FlxG.collide(this, Global.enemyGroup, attackEnemy);
 	}

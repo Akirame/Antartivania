@@ -22,17 +22,26 @@ var attacking:Bool = false;
 	{
 		super(X, Y);
 		damage = 1;
-		makeGraphic(8, 8, 0xFFFFFFFF);
+		loadGraphic(AssetPaths.bombSheet__png, true, 32, 32);
+		animation.add("active", [0, 1, 2, 3], 8, false);
+		animation.add("boom", [4, 5, 6], 8, false);
+		scale.set(0.5, 0.5);
+		updateHitbox();
+		setFacingFlip(FlxObject.LEFT, true, false);
+		setFacingFlip(FlxObject.RIGHT, false, false);
 		if (Global.player.facing == FlxObject.RIGHT)
 		{
+		facing = FlxObject.RIGHT;
 		acceleration.y = 400;
 		velocity.set(75, -150);
 		}
 		else if (Global.player.facing == FlxObject.LEFT)
 		{
+		facing = FlxObject.LEFT;
 		acceleration.y = 400;
 		velocity.set(-75, -150);
 		}
+		animation.play("active");
 	}	
 	
 	override public function update(elapsed:Float):Void 
@@ -47,10 +56,14 @@ var attacking:Bool = false;
 	{
 		if ( conta > 0.7 && !boomCount)
 		{
+		scale.set(2, 2);
+		updateHitbox();	
+		animation.play("boom");
+		if (facing == FlxObject.LEFT)
+		setPosition(x - width/2, y);		
+		
 		acceleration.set(0, 0);
 		velocity.set(0, 0);
-		scale.set(5, 5);
-		updateHitbox();		
 		damage = 2;
 		boomCount = true;
 		}

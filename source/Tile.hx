@@ -38,8 +38,9 @@ class Tile extends FlxSprite
 		_tipo = type;
 		loadGraphic(AssetPaths.tilesSheet__png, true, 32, 32);		
 		animation.add("transport", [0, 1, 2, 3], 6, true);
-		animation.add("boingACTIVE", [5,6,5,6], 8, false);
-		animation.add("boingIDLE", [4, 5], 4, true);
+		animation.add("boingIDLE", [4, 5, 6], 4, true);
+		animation.add("boingACTIVE", [7,8,7,8], 8, false);		
+		animation.add("upgradeActive", [9, 10], 4, true);		
 		setFacingFlip(FlxObject.LEFT, true, false);
 		setFacingFlip(FlxObject.RIGHT, false, false);
 		direction = 1;
@@ -71,7 +72,7 @@ class Tile extends FlxSprite
 			case Tipo.UPGRADE:
 				scale.set(0.5, 0.5);
 				updateHitbox();
-				animation.play("transport");
+				animation.play("upgradeActive");
 				
 			case Tipo.STAIR:
 				//scale.set(0.5, 0.5);
