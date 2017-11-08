@@ -88,7 +88,7 @@ class BossKillerWhale extends Enemy
 	
 	private function shoot():Void
 	{
-		var shoot:KillerWhaleShoot = new KillerWhaleShoot(x+width-30, y + 62,direction);
+		var shoot:KillerWhaleShoot = new KillerWhaleShoot(x+width-30, y+10,direction);
 		FlxG.state.add(shoot);
 	}
 	

@@ -20,7 +20,7 @@ class KillerWhaleShoot extends FlxSprite
 		super(X, Y);
 		loadGraphic(AssetPaths.killerShoot__png, true, 8, 8);
 		animation.add("idle", [0, 1, 2, 3], 6, true);
-		damage = 3;
+		damage = 30;
 		direction = dir;
 		velocity.x = direction*random.int(100, 200);
 		velocity.y = random.int(20, 60);

@@ -77,7 +77,7 @@ class Player extends FlxSprite
 		attacking = false;
 		canBeAttacked = true;
 		attacking2nd = false;
-		health = 8;
+		health = 20;
 		energy = 0;
 		direction = 1;
 	}
@@ -288,13 +288,18 @@ class Player extends FlxSprite
 	
 	public function takeDamage(damage:Int):Void
 	{
-		if (canBeAttacked && health > 0)
+		if (health > 0)
 		{
+			if (canBeAttacked)
+			{
 			canBeAttacked = false;
 			health -= damage;
 			velocity.set(50 * direction, -50);
 			acceleration.y = 1400;
+			}
 		}
+		else
+			health = 0;
 	}
 	
 	public function get_direction():Int 
