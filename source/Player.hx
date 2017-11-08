@@ -76,6 +76,7 @@ class Player extends FlxSprite
 		acceleration.x = 0;
 		attackedManagment();
 		secondaryAttack();
+		whip.changePosition();
 	}
 	
 	private function secondaryAttack():Void
@@ -196,7 +197,6 @@ class Player extends FlxSprite
 		if (FlxG.keys.justPressed.X)
 		{
 			whip.revive();
-			whip.changePosition();
 			attacking = true;
 		}
 	}

@@ -19,11 +19,13 @@ enum Tipo
 	VERTICAL;
 	HORIZONTAL;
 	UPGRADE;
+	STAIR;
 }
 class Tile extends FlxSprite 
 {
 	private var _tipo:Tipo = BOUNCING;
 	private var fisshi:Fish;
+	private var direction:Int;
 	
 	
 	public function new(?X:Float = 0, ?Y:Float = 0, ?SimpleGraphic:FlxGraphicAsset,type:Tipo)
@@ -37,6 +39,7 @@ class Tile extends FlxSprite
 		animation.add("boingIDLE", [4, 5], 4, true);
 		setFacingFlip(FlxObject.LEFT, true, false);
 		setFacingFlip(FlxObject.RIGHT, false, false);
+		direction = 1;
 		switch (_tipo) 
 		{
 			case Tipo.BOUNCING:
@@ -48,8 +51,8 @@ class Tile extends FlxSprite
 				FlxTween.tween(this, {x:x + 100}, 3, {type:FlxTween.PINGPONG, ease:FlxEase.smoothStepInOut});
 				
 			case Tipo.VERTICAL:
-					FlxTween.tween(this, {y:y - 100}, 3, {type:FlxTween.PINGPONG, ease:FlxEase.smoothStepInOut});
-					
+				FlxTween.tween(this, {y:y - 100}, 3, {type:FlxTween.PINGPONG, ease:FlxEase.smoothStepInOut});
+				
 			case Tipo.TRANSPORTLEFT:
 				facing = FlxObject.RIGHT;
 				scale.set(0.5, 0.5);
@@ -67,6 +70,9 @@ class Tile extends FlxSprite
 				updateHitbox();
 				animation.play("transport");
 				
+			case Tipo.STAIR:
+				//scale.set(0.5, 0.5);
+				updateHitbox();
 		}
 	}
 	
@@ -81,5 +87,13 @@ class Tile extends FlxSprite
 		fisshi = new Fish(x, y);
 		FlxG.state.add(fisshi);
 		destroy();
+	}
+	public function setDirection(dir:Int):Void
+	{
+		direction = dir;
+	}
+	public function getDirection():Int
+	{
+		return direction;
 	}
 }

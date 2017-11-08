@@ -21,11 +21,9 @@ class Whip extends FlxSprite
 	
 	override public function update(elapsed:Float):Void 
 	{
-		changePosition();
 		super.update(elapsed);
 		FlxG.overlap(this, Global.enemyGroup, attackEnemy);
 		FlxG.overlap(this, Global.tileGroup, attackUpgrade);
-		
 	}
 
 	public function changePosition():Void 

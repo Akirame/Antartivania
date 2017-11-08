@@ -12,9 +12,9 @@ import flixel.tweens.FlxTween;
 
 class PlayState extends FlxState
 {
-	private var p1:Player;
 	private var seal:Seal;
 	private var tilemap:FlxTilemap;
+	private var p1:Player;
 	private var loader:FlxOgmoLoader;
 
 	override public function create():Void
@@ -41,6 +41,7 @@ class PlayState extends FlxState
 		add(tilemap);
 		add(Global.enemyGroup);
 		add(Global.tileGroup);
+		add(p1);
 		Global.proyectiles = new FlxTypedGroup<FlxSprite>();
 		Global.player = p1;
 		Global.score = 0;
@@ -56,9 +57,6 @@ class PlayState extends FlxState
 
 		switch (entityName)
 		{
-			case "player":
-				p1 = new Player(x, y);
-				add(p1);
 			case "enemy1":
 				var e:Seal = new Seal(x,y);
 				Global.enemyGroup.add(e);
@@ -82,6 +80,13 @@ class PlayState extends FlxState
 				var t = new Tile(x, y, null, Tile.Tipo.HORIZONTAL);
 				t.loadGraphic(AssetPaths.icyFlying__png, false, 128, 32);
 				Global.tileGroup.add(t);
+			case "StairTile":
+				var t = new Tile(x, y, null, Tile.Tipo.STAIR);
+				t.makeGraphic(16, 16, 0xFFFF0000);
+				t.allowCollisions = FlxObject.UP;
+				Global.tileGroup.add(t);
+				t.setDirection(Std.parseInt(entityData.get("direction")));
+				
 			case "WalrusTower":
 				var w = new WalrusTower(x, y);
 				var dir:Int = Std.parseInt(entityData.get("direction"));
@@ -95,6 +100,8 @@ class PlayState extends FlxState
 			case "upgradeTile":
 				var f = new Tile(x, y,null, Tile.Tipo.UPGRADE);
 				Global.tileGroup.add(f);
+			case "player":
+				p1 = new Player(x, y);
 		}
 	}
 
@@ -102,8 +109,27 @@ class PlayState extends FlxState
 	{
 		FlxG.collide(tilemap, p1);
 		FlxG.collide(tilemap, Global.enemyGroup);
-		FlxG.collide(Global.tileGroup, p1, CollideTilePlayer);		
+		FlxG.collide(Global.tileGroup, p1, CollideTilePlayer);
+		FlxG.overlap(Global.tileGroup, p1, overlapStair);
 		super.update(elapsed);
+
+	}
+	
+	private function overlapStair(t:Tile,p:Player):Void
+	{
+		if (t.getTipo() == Tile.Tipo.STAIR)
+		{
+			if (FlxG.keys.pressed.UP)
+			{
+				Global.player.velocity.set(60*t.getDirection(), -72);
+				Global.player.acceleration.y = 1400;
+			}
+			if (FlxG.keys.justReleased.UP)
+			{
+				Global.player.velocity.set(0, 0);
+				Global.player.acceleration.y = 0;
+			}
+		}
 
 	}
 
