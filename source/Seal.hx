@@ -27,9 +27,9 @@ class Seal extends Enemy
 		acceleration.y = 1400;
 		animation.add("walk", [0, 1],6, true);
 		derecha = new FlxSprite(x + width, y + height);
-		derecha.makeGraphic(2, 32, 0xFFFF0000);
+		derecha.makeGraphic(2, 32, 0x00000000);
 		izquierda = new FlxSprite(x + width, y + height);
-		izquierda.makeGraphic(2, 32, 0xFFFF0000);
+		izquierda.makeGraphic(2, 32, 0x00000000);
 		FlxG.state.add(derecha);
 		FlxG.state.add(izquierda);
 		setFacingFlip(FlxObject.LEFT, true, false);

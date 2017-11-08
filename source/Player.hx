@@ -49,6 +49,7 @@ class Player extends FlxSprite
 	private var knife:KnifeSecondary;
 	private var shield:ShieldSecondary;
 	private var attacking2nd:Bool;
+	private var timerLoco:Float = 0;
 
 	public function new(?X:Float=0, ?Y:Float=0)
 	{
@@ -89,6 +90,8 @@ class Player extends FlxSprite
 		acceleration.x = 0;
 		attackedManagment();		
 		whip.changePosition();
+		if (acceleration.y == 0 && FlxG.keys.pressed.UP)
+			acceleration.y = 1400;
 	}
 	
 	private function traceState():Void
@@ -190,6 +193,7 @@ class Player extends FlxSprite
 					state = Estado.IDLE;
 				}
 			case Estado.CLIMBING:
+				velocity.x = 0;
 				if (isTouching(FlxObject.FLOOR))
 					state = Estado.IDLE;
 		}
@@ -288,7 +292,8 @@ class Player extends FlxSprite
 		{
 			canBeAttacked = false;
 			health -= damage;
-			velocity.set(50 *direction, -50);
+			velocity.set(50 * direction, -50);
+			acceleration.y = 1400;
 		}
 	}
 	

@@ -13,13 +13,19 @@ class KillerWhaleShoot extends FlxSprite
 {
 	private var damage:Int;
 	private var random:FlxRandom = new FlxRandom();
+	private var direction:Int;
 
-	public function new(?X:Float=0, ?Y:Float=0, ?SimpleGraphic:FlxGraphicAsset) 
+	public function new(?X:Float=0, ?Y:Float=0, ?dir:Int=0) 
 	{
-		super(X, Y, SimpleGraphic);
+		super(X, Y);
 		loadGraphic(AssetPaths.killerShoot__png, true, 8, 8);
 		animation.add("idle", [0, 1, 2, 3], 6, true);
 		damage = 3;
+		direction = dir;
+		velocity.x = direction*random.int(100, 200);
+		velocity.y = random.int(20, 60);
+		animation.play("idle");
+		
 	}
 	
 	override public function update(elapsed:Float):Void 
@@ -27,9 +33,6 @@ class KillerWhaleShoot extends FlxSprite
 		super.update(elapsed);
 		FlxG.overlap(this, Global.player, attackPlayer);
 		checkBoundaries();
-		velocity.x = -random.int(100, 200);
-		velocity.y = random.int(2, 60);
-		animation.play("idle");
 	}
 	
 	private function attackPlayer(s:KillerWhaleShoot,p:Player):Void

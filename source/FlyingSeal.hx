@@ -19,6 +19,8 @@ class FlyingSeal extends Enemy
 		loadGraphic(AssetPaths.gaviota__png, true,32,16);	
 		velocity.x -= 40;
 		animation.add("fly", [0, 1], 6, true);
+		setFacingFlip(FlxObject.LEFT, true, false);
+		setFacingFlip(FlxObject.RIGHT, false, false);
 		health = 1;
 		damage = 1;
 		score = 500;
@@ -27,5 +29,6 @@ class FlyingSeal extends Enemy
 	override public function update(elapsed:Float):Void 
 	{
 		super.update(elapsed);
+		facing = (velocity.x >= 0) ? FlxObject.RIGHT : FlxObject.LEFT;
 	}
 }

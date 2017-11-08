@@ -82,6 +82,7 @@ class PlayState extends FlxState
 			case "VerticalTile":
 				var t = new Tile(x, y, null, Tile.Tipo.VERTICAL);
 				t.loadGraphic(AssetPaths.icyFlying__png, false, 128, 32);
+				t.allowCollisions = FlxObject.UP;
 				Global.tileGroup.add(t);
 				t.kill();
 			case "HorizontalTile":
@@ -113,7 +114,8 @@ class PlayState extends FlxState
 				p1 = new Player(x, y);
 			case "Boss":
 				var b = new BossKillerWhale(x, y);
-				add(b);
+				Global.enemyGroup.add(b);
+				b.kill();
 		}
 	}
 
@@ -142,6 +144,13 @@ class PlayState extends FlxState
 				entities.revive();
 			else if (!entities.isOnScreen() && entities.alive)
 				entities.kill();
+		}
+		for (i in Global.enemyGroup)
+		{
+			if (i.isOnScreen() && !i.alive)
+				i.revive();
+			else if (!i.isOnScreen() && i.alive)
+				i.kill();
 		}
 	}
 	

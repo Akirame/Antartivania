@@ -46,9 +46,12 @@ class WalrusTower extends Enemy
 	
 	private function shootTusk():Void
 	{
-		var tusk:WalrusTusk = new WalrusTusk(x, y+4);
-		tusk.setDirection(direction);
-		FlxG.state.add(tusk);
+		if (alive)
+		{
+			var tusk:WalrusTusk = new WalrusTusk(x, y+4);
+			tusk.setDirection(direction);
+			FlxG.state.add(tusk);
+		}
 	}
 	
 	public function setDirection(dir:Int):Void
