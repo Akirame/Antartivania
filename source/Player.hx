@@ -78,8 +78,6 @@ class Player extends FlxSprite
 		stateMachine();
 		super.update(elapsed);
 		acceleration.x = 0;
-		attackedManagment();
-		secondaryAttack();
 		attackedManagment();		
 		whip.changePosition();
 	}

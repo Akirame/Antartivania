@@ -28,6 +28,7 @@ class Tile extends FlxSprite
 	private var fisshi:Collectable;
 	
 	private var randValue:FlxRandom;
+	var direction:Int;
 	
 	
 	public function new(?X:Float = 0, ?Y:Float = 0, ?SimpleGraphic:FlxGraphicAsset,type:Tipo)

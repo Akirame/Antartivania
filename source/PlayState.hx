@@ -22,7 +22,7 @@ class PlayState extends FlxState
 		super.create();
 		Global.enemyGroup = new FlxTypedGroup<Enemy>();
 		Global.tileGroup = new FlxTypedGroup();
-		loader = new FlxOgmoLoader(AssetPaths.level1__oel);
+		loader = new FlxOgmoLoader(AssetPaths.level2__oel);
 		tilemap = loader.loadTilemap(AssetPaths.tiles__png, 16, 16, "tiles");
 		tilemap.setTileProperties(0, FlxObject.NONE);
 		tilemap.setTileProperties(4, FlxObject.NONE);
@@ -139,8 +139,10 @@ class PlayState extends FlxState
 		{
 			if (t.getTipo() == Tile.Tipo.BOUNCING)
 			{
+				t.animation.pause;
 				t.animation.play("boingACTIVE");				
 				p.velocity.y = -300;
+				t.animation.resume;
 			}
 			else if (t.getTipo() == Tile.Tipo.TRANSPORTRIGHT)
 				p.acceleration.x = 5000;
