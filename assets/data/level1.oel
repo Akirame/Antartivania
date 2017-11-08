@@ -242,6 +242,6 @@
     <upgradeTile id="149" x="1248" y="320" />
     <upgradeTile id="150" x="1312" y="320" />
     <Boss id="111" x="720" y="1440" />
-    <player id="151" x="32" y="1472" />
+    <player id="27" x="992" y="1472" />
   </entities>
 </level>

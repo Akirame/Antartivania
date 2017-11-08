@@ -10,6 +10,7 @@ import flixel.text.FlxText;
 import flixel.tile.FlxTile;
 import flixel.tile.FlxTilemap;
 import flixel.tweens.FlxTween;
+import flixel.ui.FlxBar;
 
 class PlayState extends FlxState
 {
@@ -17,9 +18,12 @@ class PlayState extends FlxState
 	private var tilemap:FlxTilemap;
 	private var p1:Player;
 	private var loader:FlxOgmoLoader;
+	private var boss:BossKillerWhale;
 	
 	private var textoScore:FlxText;
 	private var textoMunicion:FlxText;
+	
+	private var barraBoss:FlxBar;
 	
 
 	override public function create():Void
@@ -53,6 +57,10 @@ class PlayState extends FlxState
 		textoScore.scrollFactor.set(0, 0);
 		textoScore.color = 0xFFFFFFFF;
 		add(textoScore);
+		barraBoss = new FlxBar(30, FlxG.camera.height -20 ,null, 200, 20, boss, "health", 0, boss.health);
+		barraBoss.scrollFactor.set(0, 0);
+		add(barraBoss);
+		barraBoss.kill();
 	}
 
 	private function placeEntities(entityName:String, entityData:Xml):Void // inicializar entidades
@@ -114,9 +122,9 @@ class PlayState extends FlxState
 			case "player":
 				p1 = new Player(x, y);
 			case "Boss":
-				var b = new BossKillerWhale(x, y);
-				Global.enemyGroup.add(b);
-				b.kill();
+				boss = new BossKillerWhale(x, y);
+				Global.enemyGroup.add(boss);
+				boss.kill();
 		}
 	}
 
@@ -129,6 +137,13 @@ class PlayState extends FlxState
 		FlxG.overlap(Global.stairGroup, p1, overlapStair);
 		super.update(elapsed);
 		drawGui();
+		if (boss.alive)
+			drawBarra();
+	}
+	
+	private function drawBarra():Void 
+	{
+		barraBoss.revive();
 	}
 	
 	private function drawGui():Void
