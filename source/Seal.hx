@@ -40,6 +40,7 @@ class Seal extends Enemy
 		health = 1;
 		damage = 1;
 		acceleration.y = 1400;
+		score = 700;
 	}
 
 	override public function update(elapsed:Float):Void
@@ -70,7 +71,7 @@ class Seal extends Enemy
 		else
 			direction = direction * 1;
 		velocity.x = 10 * direction;
-		facing = (velocity.x >= 0) ? FlxObject.LEFT : FlxObject.RIGHT;
+		facing = (velocity.x >= 0) ? FlxObject.RIGHT : FlxObject.LEFT;
 		animation.play("walk");
 	}
 }

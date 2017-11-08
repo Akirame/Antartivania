@@ -6,6 +6,7 @@ import flixel.FlxSprite;
 import flixel.FlxState;
 import flixel.addons.editors.ogmo.FlxOgmoLoader;
 import flixel.group.FlxGroup.FlxTypedGroup;
+import flixel.text.FlxText;
 import flixel.tile.FlxTile;
 import flixel.tile.FlxTilemap;
 import flixel.tweens.FlxTween;
@@ -16,6 +17,10 @@ class PlayState extends FlxState
 	private var tilemap:FlxTilemap;
 	private var p1:Player;
 	private var loader:FlxOgmoLoader;
+	
+	private var textoScore:FlxText;
+	private var textoMunicion:FlxText;
+	
 
 	override public function create():Void
 	{
@@ -23,7 +28,7 @@ class PlayState extends FlxState
 		Global.enemyGroup = new FlxTypedGroup<Enemy>();
 		Global.tileGroup = new FlxTypedGroup();
 		Global.stairGroup = new FlxTypedGroup();
-		loader = new FlxOgmoLoader(AssetPaths.testlevel__oel);
+		loader = new FlxOgmoLoader(AssetPaths.level1__oel);
 		FlxG.camera.bgColor = 0xFFCCDDFF;
 		tilemap = loader.loadTilemap(AssetPaths.tiles__png, 16, 16, "tiles");
 		for (i in 0...11)
@@ -44,6 +49,9 @@ class PlayState extends FlxState
 		Global.score = 0;
 		Global.tilemapActual = tilemap;
 		FlxG.worldBounds.set(0, 0, tilemap.width, tilemap.height);
+		textoScore = new FlxText(0, 0, 0, "TEST", 12);
+		textoScore.color = 0xFFFFFFFF;
+		add(textoScore);
 	}
 
 	private function placeEntities(entityName:String, entityData:Xml):Void // inicializar entidades
@@ -85,7 +93,8 @@ class PlayState extends FlxState
 				var t = new Tile(x, y, null, Tile.Tipo.STAIR);
 				t.loadGraphic(AssetPaths.stair__png);
 				t.setDirection(Std.parseInt(entityData.get("direction")));
-				t.kill();
+				Global.stairGroup.add(t);
+				//t.kill();
 			case "WalrusTower":
 				var w = new WalrusTower(x, y);
 				var dir:Int = Std.parseInt(entityData.get("direction"));
@@ -116,6 +125,13 @@ class PlayState extends FlxState
 		FlxG.collide(Global.tileGroup, p1, CollideTilePlayer);
 		FlxG.overlap(Global.stairGroup, p1, overlapStair);
 		super.update(elapsed);
+		drawGui();
+	}
+	
+	private function drawGui():Void
+	{
+		textoScore.setPosition(FlxG.camera.scroll.x + FlxG.camera.width / 2, 5);
+		textoScore.text = "SCORE "+Global.score;
 	}
 	
 	function entitiesRespawn() 
@@ -123,9 +139,9 @@ class PlayState extends FlxState
 		for (entities in Global.tileGroup)
 		{
 			if (entities.isOnScreen() && !entities.alive)
-			entities.revive();
+				entities.revive();
 			else if (!entities.isOnScreen() && entities.alive)
-			entities.kill();
+				entities.kill();
 		}
 	}
 	

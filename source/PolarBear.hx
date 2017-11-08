@@ -21,6 +21,7 @@ class PolarBear extends Enemy
 		health = 2;
 		damage = 2;
 		acceleration.y = 1400;
+		score = 1000;
 	}
 	
 	override public function update(elapsed:Float):Void 

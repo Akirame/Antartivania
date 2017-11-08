@@ -17,9 +17,10 @@ class BossKillerWhale extends Enemy
 		super(X, Y, SimpleGraphic);
 		loadGraphic(AssetPaths.killerWhale__png, true, 128, 98);
 		animation.add("anim1", [0, 1, 2], 6, true);
-		animation.add("anim2", [3, 4, 5], 6, true);
+		animation.add("anim2", [3, 4, 5], 6, false);
 		damage = 5;
 		health = 30;
+		score = 10000;
 	}
 	
 	override public function update(elapsed:Float):Void 
@@ -55,7 +56,8 @@ class BossKillerWhale extends Enemy
 	private function goDown():Void
 	{
 		velocity.y = 100;
-		shoot();
+		//shoot();
+		animation.play("anim2");
 	}
 	
 	private function shootsLocos()

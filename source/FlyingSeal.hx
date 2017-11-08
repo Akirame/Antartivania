@@ -21,6 +21,7 @@ class FlyingSeal extends Enemy
 		animation.add("fly", [0, 1], 6, true);
 		health = 1;
 		damage = 1;
+		score = 500;
 	}
 	
 	override public function update(elapsed:Float):Void 

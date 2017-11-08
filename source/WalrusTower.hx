@@ -23,6 +23,7 @@ class WalrusTower extends Enemy
 		immovable = true;
 		health = 4;
 		damage = 0;
+		score = 1250;
 	}
 	
 	override public function update(elapsed:Float):Void 

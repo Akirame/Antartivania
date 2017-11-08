@@ -64,8 +64,8 @@
   <EntityDefinitions>
     <EntityDefinition Name="player" Limit="1" ResizableX="false" ResizableY="false" Rotatable="false" RotateIncrement="15">
       <Size>
-        <Width>16</Width>
-        <Height>16</Height>
+        <Width>40</Width>
+        <Height>19</Height>
       </Size>
       <Origin>
         <X>0</X>
@@ -79,8 +79,8 @@
     </EntityDefinition>
     <EntityDefinition Name="enemy1" Limit="-1" ResizableX="false" ResizableY="false" Rotatable="false" RotateIncrement="15">
       <Size>
-        <Width>16</Width>
-        <Height>16</Height>
+        <Width>64</Width>
+        <Height>32</Height>
       </Size>
       <Origin>
         <X>0</X>
@@ -94,7 +94,7 @@
     </EntityDefinition>
     <EntityDefinition Name="enemy2" Limit="-1" ResizableX="false" ResizableY="false" Rotatable="false" RotateIncrement="15">
       <Size>
-        <Width>16</Width>
+        <Width>32</Width>
         <Height>16</Height>
       </Size>
       <Origin>
@@ -154,8 +154,8 @@
     </EntityDefinition>
     <EntityDefinition Name="VerticalTile" Limit="-1" ResizableX="false" ResizableY="false" Rotatable="false" RotateIncrement="15">
       <Size>
-        <Width>16</Width>
-        <Height>16</Height>
+        <Width>128</Width>
+        <Height>32</Height>
       </Size>
       <Origin>
         <X>0</X>
@@ -169,8 +169,8 @@
     </EntityDefinition>
     <EntityDefinition Name="HorizontalTile" Limit="-1" ResizableX="false" ResizableY="false" Rotatable="false" RotateIncrement="15">
       <Size>
-        <Width>16</Width>
-        <Height>16</Height>
+        <Width>128</Width>
+        <Height>32</Height>
       </Size>
       <Origin>
         <X>0</X>
@@ -185,7 +185,7 @@
     <EntityDefinition Name="WalrusTower" Limit="-1" ResizableX="false" ResizableY="false" Rotatable="false" RotateIncrement="15">
       <Size>
         <Width>16</Width>
-        <Height>16</Height>
+        <Height>32</Height>
       </Size>
       <Origin>
         <X>0</X>
@@ -201,8 +201,8 @@
     </EntityDefinition>
     <EntityDefinition Name="PolarBear" Limit="-1" ResizableX="false" ResizableY="false" Rotatable="false" RotateIncrement="15">
       <Size>
-        <Width>16</Width>
-        <Height>16</Height>
+        <Width>64</Width>
+        <Height>32</Height>
       </Size>
       <Origin>
         <X>0</X>
