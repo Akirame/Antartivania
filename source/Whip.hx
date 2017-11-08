@@ -14,7 +14,7 @@ class Whip extends FlxSprite
 	public function new(?X:Float=0, ?Y:Float=0) 
 	{
 		super(X, Y);
-		makeGraphic(16, 4, 0xFFFFFF00);	
+		makeGraphic(20, 24, 0xFFFFFF00);	
 		damage = 1;
 		pixelPerfectPosition = false;
 	}

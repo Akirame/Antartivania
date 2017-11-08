@@ -22,7 +22,8 @@ class PlayState extends FlxState
 		super.create();
 		Global.enemyGroup = new FlxTypedGroup<Enemy>();
 		Global.tileGroup = new FlxTypedGroup();
-		loader = new FlxOgmoLoader(AssetPaths.level2__oel);
+		FlxG.camera.bgColor = 0xFFFFFFFF;
+		loader = new FlxOgmoLoader(AssetPaths.level1__oel);
 		tilemap = loader.loadTilemap(AssetPaths.tiles__png, 16, 16, "tiles");
 		tilemap.setTileProperties(0, FlxObject.NONE);
 		tilemap.setTileProperties(4, FlxObject.NONE);
