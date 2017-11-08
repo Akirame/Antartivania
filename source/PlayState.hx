@@ -50,6 +50,7 @@ class PlayState extends FlxState
 		Global.tilemapActual = tilemap;
 		FlxG.worldBounds.set(0, 0, tilemap.width, tilemap.height);
 		textoScore = new FlxText(0, 0, 0, "TEST", 12);
+		textoScore.scrollFactor.set(0, 0);
 		textoScore.color = 0xFFFFFFFF;
 		add(textoScore);
 	}
@@ -132,7 +133,7 @@ class PlayState extends FlxState
 	
 	private function drawGui():Void
 	{
-		textoScore.setPosition(FlxG.camera.scroll.x + FlxG.camera.width / 2, 5);
+
 		textoScore.text = "SCORE "+Global.score;
 	}
 	
@@ -147,7 +148,7 @@ class PlayState extends FlxState
 		}
 		for (i in Global.enemyGroup)
 		{
-			if (i.isOnScreen() && !i.alive)
+			if (i.isOnScreen() && !i.alive && i.health > 0 )
 				i.revive();
 			else if (!i.isOnScreen() && i.alive)
 				i.kill();

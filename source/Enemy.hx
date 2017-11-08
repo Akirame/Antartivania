@@ -37,7 +37,7 @@ class Enemy extends FlxSprite
 			kill();
 			Global.score += getScore();
 		}
-		FlxG.collide(Global.player, this, attackPlayer);
+		FlxG.overlap(Global.player, this, attackPlayer);
 		changeDirection();
 	}
 	

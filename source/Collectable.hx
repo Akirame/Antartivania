@@ -27,6 +27,7 @@ class Collectable extends FlxSprite
 		destroy();
 		conta += FlxG.elapsed;
 		FlxG.overlap(this, Global.player, pickup);
+		FlxG.collide(this, Global.tileGroup);
 	}
 	
 	public function pickup(c:Collectable,p:Player):Void
