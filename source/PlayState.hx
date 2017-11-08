@@ -22,31 +22,26 @@ class PlayState extends FlxState
 		super.create();
 		Global.enemyGroup = new FlxTypedGroup<Enemy>();
 		Global.tileGroup = new FlxTypedGroup();
-		FlxG.camera.bgColor = 0xFFFFFFFF;
-		loader = new FlxOgmoLoader(AssetPaths.level1__oel);
+		Global.stairGroup = new FlxTypedGroup();
+		loader = new FlxOgmoLoader(AssetPaths.testlevel__oel);
+		FlxG.camera.bgColor = 0xFFCCDDFF;
 		tilemap = loader.loadTilemap(AssetPaths.tiles__png, 16, 16, "tiles");
-		tilemap.setTileProperties(0, FlxObject.NONE);
-		tilemap.setTileProperties(4, FlxObject.NONE);
-		tilemap.setTileProperties(8, FlxObject.NONE);
-		tilemap.setTileProperties(1, FlxObject.ANY);
-		tilemap.setTileProperties(2, FlxObject.ANY);
-		tilemap.setTileProperties(3, FlxObject.ANY);
-		tilemap.setTileProperties(5, FlxObject.ANY);
-		tilemap.setTileProperties(6, FlxObject.ANY);
-		tilemap.setTileProperties(7, FlxObject.ANY);
-		tilemap.setTileProperties(9, FlxObject.ANY);
-		tilemap.setTileProperties(10, FlxObject.ANY);
-		tilemap.setTileProperties(11, FlxObject.ANY);
+		for (i in 0...11)
+		{
+			if (i == 0 || i == 4 || i == 8)
+				tilemap.setTileProperties(i, FlxObject.NONE);
+			else
+				tilemap.setTileProperties(i, FlxObject.ANY);
+		}
 		loader.loadEntities(placeEntities, "entities");
 		FlxG.camera.follow(p1);
 		add(tilemap);
 		add(Global.enemyGroup);
 		add(Global.tileGroup);
+		add(Global.stairGroup);
 		add(p1);
-		Global.proyectiles = new FlxTypedGroup<FlxSprite>();
 		Global.player = p1;
 		Global.score = 0;
-		add(Global.proyectiles);
 		Global.tilemapActual = tilemap;
 		FlxG.worldBounds.set(0, 0, tilemap.width, tilemap.height);
 	}
@@ -88,12 +83,9 @@ class PlayState extends FlxState
 				t.kill();
 			case "StairTile":
 				var t = new Tile(x, y, null, Tile.Tipo.STAIR);
-				t.makeGraphic(16, 16, 0xFFFF0000);
-				t.allowCollisions = FlxObject.UP;
-				Global.tileGroup.add(t);
+				t.loadGraphic(AssetPaths.stair__png);
 				t.setDirection(Std.parseInt(entityData.get("direction")));
 				t.kill();
-				
 			case "WalrusTower":
 				var w = new WalrusTower(x, y);
 				var dir:Int = Std.parseInt(entityData.get("direction"));
@@ -110,6 +102,9 @@ class PlayState extends FlxState
 				f.kill();
 			case "player":
 				p1 = new Player(x, y);
+			case "Boss":
+				var b = new BossKillerWhale(x, y);
+				add(b);
 		}
 	}
 
@@ -119,9 +114,8 @@ class PlayState extends FlxState
 		FlxG.collide(tilemap, p1);
 		FlxG.collide(tilemap, Global.enemyGroup);
 		FlxG.collide(Global.tileGroup, p1, CollideTilePlayer);
-		FlxG.overlap(Global.tileGroup, p1, overlapStair);
+		FlxG.overlap(Global.stairGroup, p1, overlapStair);
 		super.update(elapsed);
-
 	}
 	
 	function entitiesRespawn() 
@@ -139,18 +133,17 @@ class PlayState extends FlxState
 	{
 		if (t.getTipo() == Tile.Tipo.STAIR)
 		{
-			if (FlxG.keys.pressed.UP)
+			if (FlxG.keys.pressed.UP && Global.player.get_direction()==t.getDirection())
 			{
 				Global.player.velocity.set(60*t.getDirection(), -72);
 				Global.player.acceleration.y = 1400;
 			}
-			if (FlxG.keys.justReleased.UP)
+			if (FlxG.keys.justReleased.UP && Global.player.get_direction()==t.getDirection())
 			{
 				Global.player.velocity.set(0, 0);
 				Global.player.acceleration.y = 0;
 			}
 		}
-
 	}
 
 	function CollideTilePlayer(t:Tile,p:Player)
@@ -160,7 +153,7 @@ class PlayState extends FlxState
 			if (t.getTipo() == Tile.Tipo.BOUNCING)
 			{
 				t.animation.pause;
-				t.animation.play("boingACTIVE");				
+				t.animation.play("boingACTIVE");
 				p.velocity.y = -300;
 				t.animation.resume;
 			}

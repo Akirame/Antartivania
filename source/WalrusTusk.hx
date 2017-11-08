@@ -11,29 +11,30 @@ import flixel.system.FlxAssets.FlxGraphicAsset;
 class WalrusTusk extends FlxSprite 
 {
 	private var direction:Int;
+	private var damage:Int;
 	public function new(?X:Float=0, ?Y:Float=0, ?SimpleGraphic:FlxGraphicAsset) 
 	{
 		super(X, Y, SimpleGraphic);
-		makeGraphic(8, 2, 0xFFFF00FF);
-		Global.proyectiles.add(this);
+		loadGraphic(AssetPaths.tusk__png, false, 8, 3);
+		damage = 1;
 	}
 	
 	override public function update(elapsed:Float):Void 
 	{
 		move();
 		super.update(elapsed);
-		/*if (FlxG.overlap(this, Global.player))
-			trace("HIT!");*/
+		if (FlxG.overlap(this, Global.player))
+		{
+			Global.player.takeDamage(damage);
+			destroy();
+		}
 		checkBoundaries();
 	}
 	
 	private function checkBoundaries():Void
 	{
 		if (x < 0 || x > FlxG.camera.scroll.x + FlxG.camera.width)
-		{
-			Global.proyectiles.remove(this, true);
 			destroy();
-		}
 	}
 	
 	private function move():Void

@@ -23,12 +23,13 @@ class Seal extends Enemy
 	public function new(?X:Float=0, ?Y:Float=0)
 	{
 		super(X, Y);
-		makeGraphic(16, 8, 0xFF4003FF);
+		loadGraphic(AssetPaths.seal__png, true,64,32);	
 		acceleration.y = 1400;
+		animation.add("walk", [0, 1],6, true);
 		derecha = new FlxSprite(x + width, y + height);
-		derecha.makeGraphic(2, 8, 0xFFFF0000);
+		derecha.makeGraphic(2, 32, 0xFFFF0000);
 		izquierda = new FlxSprite(x + width, y + height);
-		izquierda.makeGraphic(2, 8, 0xFFFF0000);
+		izquierda.makeGraphic(2, 32, 0xFFFF0000);
 		FlxG.state.add(derecha);
 		FlxG.state.add(izquierda);
 		setFacingFlip(FlxObject.LEFT, true, false);
@@ -38,6 +39,7 @@ class Seal extends Enemy
 		izquierda.acceleration.y = 1400;
 		health = 1;
 		damage = 1;
+		acceleration.y = 1400;
 	}
 
 	override public function update(elapsed:Float):Void
@@ -48,16 +50,27 @@ class Seal extends Enemy
 		super.update(elapsed);
 	}
 	
+	override function changeDirection():Void 
+	{
+		super.changeDirection();
+		if (Global.player.x >= x)
+			direction = 1;
+		else
+			direction = -1;
+	}
+	
 	private function hMove():Void
 	{
 		izquierda.setPosition(x - 5, y);
 		derecha.setPosition(x + width + 5, y);
-		if (izquierda.isTouching(FlxObject.FLOOR) && derecha.isTouching(FlxObject.FLOOR) == false)
+		if (derecha.isTouching(FlxObject.FLOOR) == false)
 			direction = -1;
-		else if (izquierda.isTouching(FlxObject.FLOOR) == false && derecha.isTouching(FlxObject.FLOOR))
+		else if (izquierda.isTouching(FlxObject.FLOOR) == false)
 			direction = 1;
 		else
 			direction = direction * 1;
 		velocity.x = 10 * direction;
+		facing = (velocity.x >= 0) ? FlxObject.LEFT : FlxObject.RIGHT;
+		animation.play("walk");
 	}
 }

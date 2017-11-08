@@ -23,6 +23,7 @@ enum Estado
 	FALL;
 	ATTACK;
 	SECONDARY;
+	CLIMBING;
 }
 
 enum Upgrades
@@ -90,6 +91,11 @@ class Player extends FlxSprite
 		whip.changePosition();
 	}
 	
+	private function traceState():Void
+	{
+		trace("Estado:" + state);		
+	}
+	
 	private function attackedManagment():Void 
 	{
 		if (canBeAttacked == false)
@@ -117,10 +123,12 @@ class Player extends FlxSprite
 					state = Estado.ATTACK;
 				if (attacking2nd)
 					state = Estado.SECONDARY;
-				if (velocity.y != 0)
+				if (velocity.y < 0)
 					state = Estado.JUMP;
 				else if (velocity.x != 0)
 					state = Estado.RUN;
+				else if (acceleration.y == 0)
+					state = Estado.CLIMBING;
 
 			case Estado.RUN:				
 				hMove();
@@ -130,20 +138,19 @@ class Player extends FlxSprite
 					state = Estado.ATTACK;
 				if (attacking2nd)
 					state = Estado.SECONDARY;
-				if (!isTouching(FlxObject.FLOOR))
+				if (velocity.y > 0)
 				{
 					state = Estado.FALL;
 				}
-				else if (velocity.y != 0)
+				else if (velocity.y < 0)
 					state = Estado.JUMP;
 				else if (velocity.x == 0)
-				{
 					state = Estado.IDLE;
-				}
+				else if (acceleration.y == 0)
+					state = Estado.CLIMBING;
 
 			case Estado.JUMP:				
 				attack();
-				
 				if (velocity.y == 0)
 				{
 					if (velocity.x == 0)
@@ -182,6 +189,9 @@ class Player extends FlxSprite
 					attacking2nd = false;				
 					state = Estado.IDLE;
 				}
+			case Estado.CLIMBING:
+				if (isTouching(FlxObject.FLOOR))
+					state = Estado.IDLE;
 		}
 	}
 

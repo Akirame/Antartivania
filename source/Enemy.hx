@@ -1,8 +1,10 @@
 package;
 
 import flixel.FlxG;
+import flixel.FlxObject;
 import flixel.FlxSprite;
 import flixel.system.FlxAssets.FlxGraphicAsset;
+import flixel.tile.FlxTilemap;
 
 /**
  * ...
@@ -31,10 +33,15 @@ class Enemy extends FlxSprite
 		}
 		if (health <= 0)
 			kill();
-		FlxG.collide(Global.player,this,attackPlayer);
+		FlxG.collide(Global.player, this, attackPlayer);
+		changeDirection();
+	}
+	
+	private function changeDirection():Void 
+	{
 	}
 
-	private function attackPlayer(p:Player,b:PolarBear):Void
+	private function attackPlayer(p:Player,b:Enemy):Void
 	{
 		p.takeDamage(damage);
 	}

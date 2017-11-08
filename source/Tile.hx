@@ -28,7 +28,7 @@ class Tile extends FlxSprite
 	private var fisshi:Collectable;
 	
 	private var randValue:FlxRandom;
-	var direction:Int;
+	private var direction:Int;
 	
 	
 	public function new(?X:Float = 0, ?Y:Float = 0, ?SimpleGraphic:FlxGraphicAsset,type:Tipo)
@@ -37,7 +37,7 @@ class Tile extends FlxSprite
 		super(X, Y, SimpleGraphic);
 		immovable = true;
 		_tipo = type;
-		loadGraphic(AssetPaths.tilesSheet__png, true, 32, 32);		
+		loadGraphic(AssetPaths.tilesSheet__png, true, 32, 32);	
 		animation.add("transport", [0, 1, 2, 3], 6, true);
 		animation.add("boingIDLE", [4, 5, 6], 4, true);
 		animation.add("boingACTIVE", [7,8,7,8], 8, false);		
@@ -76,7 +76,6 @@ class Tile extends FlxSprite
 				animation.play("upgradeActive");
 				
 			case Tipo.STAIR:
-				//scale.set(0.5, 0.5);
 				updateHitbox();
 		}
 	}
@@ -110,6 +109,10 @@ class Tile extends FlxSprite
 	public function setDirection(dir:Int):Void
 	{
 		direction = dir;
+		if (dir == 1)
+			facing = FlxObject.RIGHT;
+		else
+			facing = FlxObject.LEFT;
 	}
 	public function getDirection():Int
 	{
