@@ -36,8 +36,6 @@ class Whip extends FlxSprite
 
 	function attackUpgrade(a:Whip,t:Tile):Void
 	{
-		
-		trace("culito");
 		if (t.getTipo() == Tile.Tipo.UPGRADE)
 		{
 			t.addFish();

@@ -47,19 +47,11 @@
   <entities>
     <enemy1 id="1" x="176" y="560" />
     <enemy2 id="2" x="192" y="544" />
-    <tTileLeft id="3" x="1520" y="336" />
-    <tTileLeft id="4" x="1536" y="336" />
-    <tTileLeft id="5" x="1552" y="336" />
-    <tTileLeft id="6" x="1568" y="336" />
-    <tTileRight id="7" x="1760" y="336" />
-    <tTileRight id="8" x="1744" y="336" />
-    <tTileRight id="9" x="1728" y="336" />
-    <tTileRight id="10" x="1712" y="336" />
-    <jumpTile id="11" x="1824" y="336" />
     <VerticalTile id="12" x="1520" y="160" />
     <HorizontalTile id="13" x="1568" y="240" />
     <WalrusTower id="14" x="256" y="544" direction="-1" />
     <PolarBear id="15" x="240" y="544" direction="-1" />
+<<<<<<< HEAD
     <Fish id="16" x="208" y="560" />
     <StairTile id="17" x="368" y="560" direction="1" />
     <StairTile id="18" x="384" y="544" direction="1" />
@@ -68,5 +60,15 @@
     <player id="0" x="352" y="544" />
     <StairTile id="21" x="496" y="448" direction="1" />
     <StairTile id="22" x="480" y="432" direction="1" />
+=======
+    <player id="3" x="1408" y="80" />
+    <upgradeTile id="0" x="1616" y="288" />
+    <upgradeTile id="4" x="1632" y="288" />
+    <upgradeTile id="5" x="1648" y="288" />
+    <upgradeTile id="6" x="1664" y="288" />
+    <upgradeTile id="7" x="1680" y="288" />
+    <upgradeTile id="8" x="1696" y="288" />
+    <upgradeTile id="9" x="1712" y="288" />
+>>>>>>> master
   </entities>
 </level>

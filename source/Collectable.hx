@@ -10,6 +10,7 @@ import flixel.system.FlxAssets.FlxGraphicAsset;
  */
 class Collectable extends FlxSprite 
 {
+	private var conta:Float = 0;
 	private var picked:Bool;
 	public function new(?X:Float=0, ?Y:Float=0, ?SimpleGraphic:FlxGraphicAsset) 
 	{
@@ -22,6 +23,14 @@ class Collectable extends FlxSprite
 	{
 		FlxG.collide(this, Global.tilemapActual);
 		super.update(elapsed);
+		if (conta > 5)
+		destroy();
+		conta += FlxG.elapsed;
+		FlxG.overlap(this, Global.player, pickup);
 	}
 	
+	public function pickup(c:Collectable,p:Player):Void
+	{
+		c.destroy();
+	}
 }
