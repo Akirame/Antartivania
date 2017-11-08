@@ -25,6 +25,7 @@ class PlayState extends FlxState
 	
 	private var barraBoss:FlxBar;
 	private var barraPlayer:FlxBar;
+	private var barraEnergia:FlxBar;
 	
 
 	override public function create():Void
@@ -54,18 +55,23 @@ class PlayState extends FlxState
 		Global.score = 0;
 		Global.tilemapActual = tilemap;
 		FlxG.worldBounds.set(0, 0, tilemap.width, tilemap.height);
-		textoScore = new FlxText(120, 5, 0, "TEST", 12);
+		textoScore = new FlxText(100, 5, 0, "TEST", 8);
 		textoScore.scrollFactor.set(0, 0);
 		textoScore.color = 0xFFFFFFFF;
 		add(textoScore);
 		barraBoss = new FlxBar(30, FlxG.camera.height -20 , null, 200, 20, boss, "health", 0, boss.health);
-		barraPlayer = new FlxBar(5 , 5, null, 100, 10, p1, "health", 0, p1.health);
+		barraPlayer = new FlxBar(5 , 5, null, 80, 10, p1, "health", 0, p1.health);
 		barraPlayer.createColoredFilledBar(0xffff00ff);
 		barraPlayer.createColoredEmptyBar(0x55ff33ff);
+		barraEnergia = new FlxBar(170, 5, null, 80, 10, p1, "energy", 0, 99);
+		barraEnergia.createColoredFilledBar(0xff0000ff);
+		barraEnergia.createColoredEmptyBar(0x550033ff);
 		barraBoss.scrollFactor.set(0, 0);
 		barraPlayer.scrollFactor.set(0, 0);
+		barraEnergia.scrollFactor.set(0, 0);
 		add(barraBoss);
 		add(barraPlayer);
+		add(barraEnergia);
 		barraBoss.kill();
 	}
 
